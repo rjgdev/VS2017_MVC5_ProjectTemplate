@@ -1,0 +1,81 @@
+﻿@model CenGts.Web.Models.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "Customer Disable";
+}
+
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Deleting this records cannot be undone. Are you sure you want to proceed?
+</div>
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Domain)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Domain)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.CompanyName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CompanyName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactNo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ContactNo)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.FirstName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.FirstName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MiddleName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.MiddleName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.LastName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LastName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </dt>
+
+                <dd>
+                    @Html.DisplayTextFor(model => model.EmailAddress)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+<div class="box-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Disable" class="btn btn-danger pull-right"/>
+        @*| @Html.ActionLink("Back to List", "Index")*@
+    }
+</div>
+
+<script type="text/javascript">
+
+    $('.modal-title').html("<b>Disable</b>");
+
+</script>

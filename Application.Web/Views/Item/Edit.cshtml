@@ -1,0 +1,119 @@
+﻿@model CenGts.Web.Models.ViewModels.ItemViewModel
+@{
+    ViewBag.Title = "Item Edit";
+}
+
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("Edit","Item")">
+    @using (Html.BeginForm("Edit", "Item", FormMethod.Post, new { id = "create-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.DateCreated)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ProductCode, new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="ProductCode" name="ProductCode">
+                                @if (Model.ProductCode != null)
+                                {
+                                    <option value="@Model.ProductCode" selected="selected">@Model.ProductDesc</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.BrandId, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="BrandId" name="BrandId">
+                                @if (Model.BrandId != null)
+                                {
+                                    <option value="@Model.BrandId" selected="selected">@Model.BrandName</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger", Value = "Brand is required" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemCode, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.ItemCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+
+<script type="text/javascript">
+    $('#create-submit').click(function () {
+        $('input:disabled').removeAttr('disabled');
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+
+    //Select2
+
+    @*CustomSelectList.init(['#ProductCode', '@Url.Action("ProductList", "SelectList")', 'Search Product']);*@
+    var productSelectList = new CustomSelectList(['#ProductCode', '@Url.Action("ProductList", "SelectList")', 'Search Item Group']);
+    productSelectList.init();
+
+    //debugger;
+    var productCd = $('select#ProductCode').val();
+    var brandSelectList = new CustomSelectList(['#BrandId', '@Url.Action("BrandListByProductCode", "SelectList")', 'Search Brand', productCd]);
+    brandSelectList.init3();
+    $('#ProductCode').on("select2:select", function (e) {
+        debugger;
+        $('#BrandId').empty().trigger('change');
+        productCd = $(e.currentTarget).val();
+        brandSelectList = new CustomSelectList(['#BrandId', '@Url.Action("BrandListByProductCode", "SelectList")', 'Search Brand', productCd]);
+        brandSelectList.init3();
+    });
+</script>

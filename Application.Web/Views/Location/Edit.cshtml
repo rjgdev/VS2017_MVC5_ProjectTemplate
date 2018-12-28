@@ -1,0 +1,93 @@
+﻿@model CenGts.Web.Models.ViewModels.LocationViewModel
+
+@{
+    ViewBag.Title = "Location Edit";
+}
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("Edit","Location")">
+    @using (Html.BeginForm("Edit", "Location", FormMethod.Post, new { id = "edit-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => Model.Id)
+        @Html.HiddenFor(model => Model.CustomerId)
+        @Html.HiddenFor(model => Model.WarehouseId)
+        @Html.HiddenFor(model => Model.IsActive)
+        @Html.HiddenFor(model => Model.DateCreated)
+        @Html.HiddenFor(model => Model.CreatedBy)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.Description, "Location", htmlAttributes: new { @class = "control-label col-md-15 required" })
+                                @Html.EditorFor(model => model.Description, "Location", new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-12">
+                                @Html.LabelFor(model => model.WarehouseId, "Warehouse", htmlAttributes: new { @class = "control-label col-md-15" })
+                                <select class="form-control" id="WarehouseCode" name="WarehouseCode">
+                                    @if (Model.WarehouseId != null)
+                                    {
+                                        <option value="@Model.WarehouseId" selected="selected">@Model.WarehouseDescription</option>
+                                    }
+                                </select>
+                                @Html.ValidationMessageFor(model => model.WarehouseId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="edit-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+<script type="text/javascript">
+
+    $('#edit-submit').click(function () {
+        $('input:disabled').removeAttr('disabled');
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#edit-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+
+         //Select2
+    
+    var warehouseSelectList = new CustomSelectList(['#WarehouseCode', '@Url.Action("WarehouseIdList", "SelectList")', 'Search Warehouse']);
+    warehouseSelectList.init();
+</script>

@@ -1,0 +1,84 @@
+﻿@model CenGts.Web.Models.ViewModels.TransactionStatusViewModel
+
+@{
+    ViewBag.Title = "Transaction Status Create";
+}
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+<div id="form-container" data-url="@Url.Action("Create","TransactionStatus")">
+    @using (Html.BeginForm("Create", "TransactionStatus", FormMethod.Post, new { id = "create-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(x => x.CustomerId)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Code, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Name, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Name, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.TransactionTypeId, "Transaction Type", htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="TransactionTypeId" name="TransactionTypeId" required> </select>
+                            @Html.ValidationMessageFor(model => model.TransactionTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+<script type="text/javascript">
+
+    $('#create-submit').click(function () {
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Create</b>");
+
+     //Select2
+    var transTypeSelectList = new CustomSelectList(['#TransactionTypeId', '@Url.Action("TransactionTypesList", "SelectList")', 'Search Transaction Type']);
+    transTypeSelectList.init();
+
+</script>

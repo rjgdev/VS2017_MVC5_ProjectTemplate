@@ -1,0 +1,74 @@
+﻿@model CenGts.Web.Models.ViewModels.DeliveryRequestLineViewModel
+
+@{
+    ViewBag.Title = "Delivery Request Line Enable";
+}
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Are you sure you want to enable this record again?
+</div>
+
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProductDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ProductDescription)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.PickType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.PickType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SpecialInstructions)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SpecialInstructions)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Memo)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Memo)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    @Html.HiddenFor(model => model.DeliveryRequestId)
+
+    <div class="box-footer">
+        <input type="submit" value="Enable" class="btn btn-primary pull-right" />
+    </div>
+}
+
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>Enable</b>");
+</script>
+

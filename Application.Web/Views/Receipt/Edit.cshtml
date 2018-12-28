@@ -1,0 +1,329 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceipt
+@{
+    ViewBag.Title = "Receipt Edit";
+}
+
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("Edit","Receipt")">
+    @using (Html.BeginForm("Edit", "Receipt", FormMethod.Post, new { id = "create-form" }))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.ReferenceNumber)
+        @Html.HiddenFor(model => model.GoodsReceivedNumber)
+        @Html.HiddenFor(model => model.StatusId)
+        @Html.HiddenFor(model => model.DateCreated)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.Received)
+        @Html.HiddenFor(model => model.Supplier)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ReferenceNumber, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.ReferenceNumber, new { htmlAttributes = new { @class = "form-control", required = "required", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.ReferenceNumber, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ExpectedReceiptDate, new { @class = "control-label col-md-15" })
+                            @Html.TextBox("ExpectedReceiptDate", Model.ExpectedReceiptDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                            @Html.ValidationMessageFor(model => model.ExpectedReceiptDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Supplier, new { @class = "control-label" })
+                            <select class="form-control" id="VendorId" name="VendorId">
+                                @if (Model.HaulierId != null)
+                                {
+                                    <option value="@Model.VendorId" selected="selected"> @Model.Supplier</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.HaulierId, "Haulier", new { @class = "control-label" })
+                            <select class="form-control" id="HaulierId" name="HaulierId">
+                                @if (Model.HaulierId != null)
+                                {
+                                    <option value="@Model.HaulierId" selected="selected"> @Model.HaulierName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.WarehouseCode, "Warehouse", new { @class = "control-label" })
+                            <select class="form-control" id="WarehouseCode" name="WarehouseCode">
+                                @if (Model.WarehouseCode != null)
+                                {
+                                    <option value="@Model.WarehouseCode" selected="selected"> @Model.WarehouseDescription</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.WarehouseCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<hr class="style5">
+                        <center> <h4><b>Receiving Section</b></h4></center>*@
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @if (Model.ReceivedDate == null)
+                            {
+                                @Html.LabelFor(model => model.ReceivedDate, new { @class = "control-label col-md-15" })
+                                @Html.TextBox("ReceivedDate", DateTime.Now, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
+                                @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(model => model.ReceivedDate)
+                                @Html.LabelFor(model => model.ReceivedDate, new { @class = "control-label col-md-15" })
+                                @Html.TextBox("ReceivedDate", Model.ReceivedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd"), disabled = "disabled" })
+                                @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                            }
+                        </div>
+                        <div class="col-md-6">
+                            @if (Model.ReceivedBy == null)
+                            {
+                                @Html.LabelFor(model => model.ReceivedBy, new { @class = "control-label col-md-15" })
+                                @Html.EditorFor(model => model.ReceivedBy, new { htmlAttributes = new { @class = "form-control", Value = ViewBag.EmailAddress } })
+                                @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+                            }
+                            else
+                            {
+                                @Html.HiddenFor(model => model.ReceivedBy)
+                                @Html.LabelFor(model => model.ReceivedBy, new { @class = "control-label col-md-15" })
+                                @Html.EditorFor(model => model.ReceivedBy, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                                @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+                            }
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        @*<div class="col-md-6">
+                            @Html.LabelFor(model => model.StatusId, "Status", new { @class = "control-label" })
+                            <select class="form-control" id="StatusId" name="StatusId" required>
+                                @if (Model.StatusId != null)
+                                {
+                                    <option value="@Model.StatusId" selected="selected"> @Model.StatusCode</option>
+                                }
+                            </select>
+                            @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                        </div>*@
+                    </div>
+                    <div class="form-group shadow-textarea">
+                        @Html.LabelFor(model => model.Comments, new { @class = "control-label col-md-3" })
+                        <div class="col-md-12">
+                            @if (Model.Comments != null)
+                            {
+                                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = "3" })
+                            }
+                            else
+                            {
+                                @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = "3", placeholder = "Write something here..." })
+                            }
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.Planned, new { @class = "control-label col-md-3" })
+                            <div class="col-md-12">
+                                @Html.CheckBoxFor(model => model.Planned, true)
+                            </div>
+                        </div>*@
+                    @*<div class="form-group">
+                                @Html.LabelFor(model => model.GoodsReceivedNumber, new { @class = "control-label col-md-6" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.GoodsReceivedNumber, new { htmlAttributes = new { @class = "form-control", disabled = "disable" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ReferenceNumber, new { @class = "control-label col-md-6" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.ReferenceNumber, new { htmlAttributes = new { @class = "form-control", disabled = "disable" } })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ExpectedReceiptDate, new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    @Html.TextBox("ExpectedReceiptDate", Model.ExpectedReceiptDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                    @Html.ValidationMessageFor(model => model.ExpectedReceiptDate, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.WarehouseCode, "Warehouse", new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    <select class="form-control" id="WarehouseCode" name="WarehouseCode">
+                                        @if (Model.WarehouseCode != null)
+                                        {
+                                            <option value="@Model.WarehouseCode" selected="selected"> @Model.WarehouseDescription</option>
+                                        }
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.Supplier, new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.HaulierId, "Haulier", new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    <select class="form-control" id="HaulierId" name="HaulierId" required>
+                                        @if (Model.HaulierId != null)
+                                        {
+                                            <option value="@Model.HaulierId" selected="selected"> @Model.HaulierName</option>
+                                        }
+
+                                    </select>
+                                </div>
+                            </div>
+                            <hr class="style5">
+                            <center> <h4><b>Receiving Section</b></h4></center>
+                            @if (Model.ReceivedDate == null)
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ReceivedDate, new { @class = "control-label col-md-3" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("ReceivedDate", DateTime.Now, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="form-group">
+                                    @Html.LabelFor(model => model.ReceivedDate, new { @class = "control-label col-md-3" })
+                                    <div class="col-md-12">
+                                        @Html.TextBox("ReceivedDate", Model.ReceivedDate, "{0:yyyy-MM-dd}", new { @class = "form-control", type = "date" })
+                                        @Html.ValidationMessageFor(model => model.ReceivedDate, "", new { @class = "text-danger" })
+                                    </div>
+                                </div>
+                            }
+
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.ReceivedBy, new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    @Html.EditorFor(model => model.ReceivedBy, new { htmlAttributes = new { @class = "form-control" } })
+                                    @Html.ValidationMessageFor(model => model.ReceivedBy, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                @Html.LabelFor(model => model.StatusId, "Status", new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    <select class="form-control" id="StatusId" name="StatusId" required>
+                                        @if (Model.StatusId != null)
+                                        {
+                                            <option value="@Model.StatusId" selected="selected"> @Model.StatusCode</option>
+                                        }
+                                    </select>
+
+                                </div>
+                            </div>
+                            <div class="form-group shadow-textarea">
+                                @Html.LabelFor(model => model.Comments, new { @class = "control-label col-md-3" })
+                                <div class="col-md-12">
+                                    @if (Model.Comments != null)
+                                    {
+                                        @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = "3" })
+                                    }
+                                    else
+                                    {
+                                        @Html.TextAreaFor(model => model.Comments, new { @class = "form-control", rows = "3", placeholder = "Write something here..." })
+                                    }
+                                    @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+
+
+<script type="text/javascript">
+    var whseAddress = $('#Address').val();
+    //Select2
+    var vendorSelectList = new CustomSelectList(['#VendorId', '@Url.Action("VendorIdList", "SelectList")', 'Search Supplier']);
+    vendorSelectList.init();
+    $('#VendorId').on('select2:select', function (e) {
+        debugger;
+        var data = $(e.currentTarget).select2('data')[0];
+        $('#Supplier').val(data.text);
+    });
+
+    var warehouseSelectList = new CustomSelectList(['#WarehouseCode', '@Url.Action("WarehouseList", "SelectList")', 'Search Warehouse']);
+    warehouseSelectList.init();
+    $('#WarehouseCode').on('select2:select', function (e) {
+        debugger;
+        var data = $(e.currentTarget).select2('data')[0];
+        if (data.title == "") {
+            $('#Address').val(whseAddress)
+        }
+        else {
+            $('#Address').val(data.otherField)
+        }
+    });
+
+     var haulierSelectList = new CustomSelectList(['#HaulierId', '@Url.Action("HaulierList", "SelectList")', 'Search Haulier']);
+     haulierSelectList.init();
+
+    @*CustomSelectList.init(['#WarehouseCode', '@Url.Action("WarehouseList", "SelectList")', 'Search Warehouse']);
+    CustomSelectList.init(['#HaulierId', '@Url.Action("HaulierList", "SelectList")', 'Search Haulier']);*@
+
+    $('#create-submit').click(function () {
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+     });
+
+    $('.modal-title').html("<b>Edit</b>");
+</script>

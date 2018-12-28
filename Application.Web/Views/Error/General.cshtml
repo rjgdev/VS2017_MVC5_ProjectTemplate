@@ -1,0 +1,23 @@
+﻿@{
+    ViewBag.Title = "General Exception";
+}
+
+<div class="error-page">
+    <h2 class="headline text-red">@ViewBag.ErrorCode</h2>
+
+    <div class="error-content">
+        <h3><i class="fa fa-warning text-red"></i> Oops! Something went wrong.</h3>
+
+        <p>
+            There was an error processing your request. Please, try again.<br>
+            If the problem persists, contact support.
+        </p>
+        <a href="@Url.Action("Index", "Home")" class="btn btn-default" role="button">Home</a>
+        
+        <p><b>Exception Details:</b> </p>
+        <p>
+            @ViewBag.Message
+        </p>
+
+    </div>
+</div>

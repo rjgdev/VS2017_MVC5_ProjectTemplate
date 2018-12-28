@@ -1,0 +1,95 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceiptLine
+@{
+    ViewBag.Title = "Expected Receipt Lines Details";
+}
+<div class="box-body">
+    <div class="form-group">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProductCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ProductCode)
+                </dd>
+                @*<dt>
+                        @Html.DisplayNameFor(model => model.ProductDescription)
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.ProductDescription)
+                    </dd>*@
+                <dt>
+                    @Html.DisplayNameFor(model => model.ItemDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ItemDescription)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ItemCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ItemCode)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.BrandName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.BrandName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Batch)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Batch)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ExpiryDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ExpiryDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Quantity)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.UomDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.UomDescription)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+@if (ViewBag.StatCode == "For Receiving")
+{
+    <div class="box-footer">
+        @*<button type="button" class="btn btn-primary pull-right" data-id="@Model.Id">Edit</button>*@
+        <button type="button" class="btn btn-primary pull-right crud" data-status="@ViewBag.StatCode" data-grn="@ViewBag.GoodsReceivedNo" data-id="@Model.Id" data-request-url="@Url.Action("Edit")">Edit</button>
+    </div>
+}
+else{
+}
+
+<script type="text/javascript">
+
+    $(".crud").click(function () {
+
+        var btnClick = $(this);
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&GoodsReceivedNumber=' + btnClick.data('grn') + '&StatusCode=' + btnClick.data('status');
+        AjaxCrudCall(url, "GET");
+
+    });
+
+    $('.modal-title').html("<b>Details</b>");
+</script>

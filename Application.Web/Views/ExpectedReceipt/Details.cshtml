@@ -1,0 +1,111 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceipt
+@{
+    ViewBag.Title = "Expected Receipt Details";
+}
+<div class="box-body">
+    <div class="form-group">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.GoodsReceivedNumber)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.GoodsReceivedNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ReferenceNumber)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ReferenceNumber)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ExpectedReceiptDate)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ExpectedReceiptDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.WarehouseCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.WarehouseCode)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Supplier)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Supplier)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.HaulierName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.HaulierName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ReceivedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ReceivedDate)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ReceivedBy)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ReceivedBy)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.StatusCode)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.StatusCode)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Comments)
+                </dd>
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.Planned)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Planned)
+                </dd>*@
+            </dl>
+        </div>
+    </div>
+</div>
+@if (Model.IsActive)
+{
+    if (Model.StatusCode.Equals("For Receiving", StringComparison.OrdinalIgnoreCase))
+    {
+        <div class="box-footer">
+            <button type="button" class="btn btn-primary pull-right crud" data-id="@Model.Id" data-request-url="@Url.Action("Edit")">Edit</button>
+        </div>
+    }
+}
+
+<script type="text/javascript">
+
+    $(".crud").click(function () {
+
+        var btnClick = $(this);
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+
+    });
+
+    $('.modal-title').html("<b>Details</b>");
+    </script>

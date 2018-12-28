@@ -1,0 +1,72 @@
+﻿@model CenGts.Web.Models.ViewModels.TransactionStatusViewModel
+
+@{
+    ViewBag.Title = "Transaction Status Details";
+}
+
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Code)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Code)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.TransTypeCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TransTypeCode)
+                </dd>*@
+                <dt>
+                    @Html.DisplayNameFor(model => model.TransTypeDesc)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TransTypeDesc)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd>
+                    @{
+                        var isActive = Model.IsActive ? "Yes" : "No";
+                    }
+                    @isActive
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+@if (Model.IsActive)
+{
+    <div class="box-footer">
+        <button type="button" class="btn btn-primary pull-right crud" data-id="@Model.Id" data-request-url="@Url.Action("Edit")">Edit</button>
+    </div>
+}
+
+
+<script type="text/javascript">
+
+    $(".crud").click(function () {
+
+        debugger;
+        var btnClick = $(this);
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+    });
+
+    $('.modal-title').html("<b>Details</b>");
+
+</script>

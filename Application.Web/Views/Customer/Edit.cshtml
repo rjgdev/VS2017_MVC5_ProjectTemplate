@@ -1,0 +1,95 @@
+﻿@model CenGts.Web.Models.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "Customer Edit";
+}
+
+<div id="form-container" data-url="@Url.Action("Edit","Customer")">
+    @using (Html.BeginForm("Edit", "Customer", FormMethod.Post, new { id = "create-form" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.DateCreated)
+        @Html.HiddenFor(model => model.CreatedBy)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                     <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Domain, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Domain, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly"} })
+                            @Html.ValidationMessageFor(model => model.Domain, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.CompanyName, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.CompanyName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CompanyName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.EmailAddress, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.EmailAddress, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.EmailAddress, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.FirstName, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.MiddleName, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.LastName, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ContactNo, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.ContactNo, new { htmlAttributes = new { @class = "form-control", type = "number" } })
+                            @Html.ValidationMessageFor(model => model.ContactNo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+
+    $('#create-submit').click(function () {
+        $('input:disabled').removeAttr('disabled');
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+
+    $('.modal-title').html("<b>Edit</b>");
+</script>

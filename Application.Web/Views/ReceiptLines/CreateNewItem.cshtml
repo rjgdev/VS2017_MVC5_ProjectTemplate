@@ -1,0 +1,150 @@
+﻿@model CenGts.Web.Models.ViewModels.ItemViewModel
+@{
+    ViewBag.Title = "Item Create";
+}
+
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("CreateNewItem", "ReceiptLines")">
+    @using (Html.BeginForm("CreateNewItem", "ReceiptLines", FormMethod.Post, new { id = "create-item", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @*@Html.ValidationSummary(true, "", new { @class = "text-danger" })*@
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.GoodsReceivedNumber)
+        @Html.HiddenFor(model => model.ExpectedReceiptId)
+        @Html.HiddenFor(model => model.StatusCode)
+        @Html.HiddenFor(model => model.ExpectedReceiptLineId)
+
+        <!-- Horizontal Form -->
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemCode, new { @class = "control-label col-md-15" })
+                            @*<select class="form-control" id="ItemCode" name="ItemCode"></select>*@
+                            @Html.EditorFor(model => model.ItemCode, new { htmlAttributes = new { @class = "form-control"} })
+                            @Html.ValidationMessageFor(model => model.ItemCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Description, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ProductCode, new { @class = "control-label col-md-15" })
+                            <select class="form-control" id="ProductCode" name="ProductCode" required></select>
+                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.BrandId, "Brand" ,htmlAttributes: new { @class = "control-label col-md-15" })
+                            <select class="form-control" id="BrandId" name="BrandId" required> </select>
+                            @Html.ValidationMessageFor(model => model.BrandId, "", new { @class = "text-danger", Value = "Brand is required" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.WarehouseCode, "Warehouse", new { @class = "control-label col-md-15" })
+                            <select class="form-control" id="WarehouseCode" name="WarehouseCode" required></select>
+                            @Html.ValidationMessageFor(model => model.WarehouseCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.LocationId, "Location", new { @class = "control-label col-md-15" })
+                            <select class="form-control" id="LocationId" name="LocationId" required></select>
+                            @Html.ValidationMessageFor(model => model.LocationId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Quantity, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                        </div>*@
+                        @*<div class="col-md-6" style="top: 25px;">
+                                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-15", style = "margin-left: 15px;" })
+                                @Html.CheckBoxFor(model => model.IsActive, new { @class="checkbox", style = "bottom: 23px;" })
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                            </div>*@
+                    @*</div>*@
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+
+<script type="text/javascript">
+    $('#create-submit').click(function () {
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-item');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+    });
+
+    //$('#IsActive').on('change', function () {
+    //    debugger;
+    //    $('input:hidden[name=IsActive]').val($(this).is(':checked'));
+    //});
+
+    $('.modal-title').html("<b>Create New Item</b>");
+
+    //Select2
+    @*CustomSelectList.init(['#WarehouseCode', '@Url.Action("WarehouseList", "SelectList")', 'Search Warehouse']);*@
+    var warehouseSelectList = new CustomSelectList(['#WarehouseCode', '@Url.Action("WarehouseList", "SelectList")', 'Search Warehouse']);
+    warehouseSelectList.init();
+
+    @*CustomSelectList.init(['#ProductCode', '@Url.Action("ProductList", "SelectList")', 'Search Product']);*@
+    var productSelectList = new CustomSelectList(['#ProductCode', '@Url.Action("ProductList", "SelectList")', 'Search Item Group']);
+    productSelectList.init();
+
+    var productCd = '';
+    var brandSelectList = new CustomSelectList(['#BrandId', '@Url.Action("BrandListByProductCode", "SelectList")', 'Search Brand', productCd]);
+    brandSelectList.init3();
+    $('#ProductCode').on("select2:select", function (e) {
+        debugger;
+        $('#BrandId').empty().trigger('change');
+        productCd = $(e.currentTarget).val();
+        brandSelectList = new CustomSelectList(['#BrandId', '@Url.Action("BrandListByProductCode", "SelectList")', 'Search Brand', productCd]);
+        brandSelectList.init3();
+    });
+
+    var warehouseCd = '';
+    var locationSelectList = new CustomSelectList(['#LocationId', '@Url.Action("LocationListByWarehouseCode", "SelectList")', 'Search Location', warehouseCd]);
+    locationSelectList.init3();
+    $('#WarehouseCode').on("select2:select", function (e) {
+        $('#LocationId').empty().trigger('change');
+        warehouseCd = $(e.currentTarget).val();
+        locationSelectList = new CustomSelectList(['#LocationId', '@Url.Action("LocationListByWarehouseCode", "SelectList")', 'Search Location', warehouseCd]);
+        locationSelectList.init3();
+    });
+</script>

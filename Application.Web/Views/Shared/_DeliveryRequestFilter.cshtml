@@ -1,0 +1,70 @@
+﻿@model CenGts.Web.Models.DeliveryRequestFilterViewModels
+
+<style type="text/css">
+    .select2-container {
+        width: 100% !important;
+    }
+
+    .box-footer {
+        padding: 1px;
+    }
+
+    .outbound {
+        padding-left: 1px;
+        padding-right: 1px;
+    }
+</style>
+
+<div id="filterDiv" class="row" hidden="hidden" style="padding: 5px;">
+    <div class="panel">
+        <div class="panel-body">
+            <div class="box-body">
+                <div class="form-horizontal">
+                    <div class="col-md-12 outbound">
+                        <div class="form-group">
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label" })
+                                <select class="form-control" id="IsActive" name="IsActive">
+                                    <option value="true" selected="selected">Yes</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                            </div>
+                            <div class="col-md-6">
+                                @Html.LabelFor(model => model.StatusId, htmlAttributes: new { @class = "control-label" })
+                                <select class="form-control" id="StatusId" name="StatusId">
+                                    <option value="0" selected="selected">ALL</option>
+                                </select>
+                                @Html.ValidationMessageFor(model => model.StatusId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="box-footer">
+                <button id="submitFilter" class="btn btn-primary">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+
+<script type="text/javascript">
+    var isActiveSelectList = new CustomSelectList(['#IsActive', '@Url.Action("IsActiveSelectList", "SelectList")', 'Search']);
+    isActiveSelectList.init();
+
+    var statusSelectList = new CustomSelectList(['#StatusId', '@Url.Action("StatusSelectListForDeliveryRequest", "SelectList")', 'Search']);
+    statusSelectList.init();
+
+    $('#filterBtn').on('click', function () {
+        debugger;
+        $('#filterDiv')[0].hasAttribute('hidden') ? $('#filterDiv').removeAttr('hidden') : $('#filterDiv').attr('hidden', 'hidden');
+    });
+
+    //$('#IsActive').on('select2:select', function (e) {
+    //    console.log($(e.currentTarget).val());
+    //});
+</script>
+

@@ -1,0 +1,62 @@
+﻿@model CenGts.Web.Models.ViewModels.TransactionStatusViewModel
+
+
+@{
+    ViewBag.Title = "Transaction Status Enable";
+}
+
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Are you sure you want to enable this record again?
+</div>
+<div class="box-body">
+    <div class="fomr-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                @*<dt>
+                    @Html.DisplayNameFor(model => model.TransTypeCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TransTypeCode)
+                </dd>*@
+                <dt>
+                    @Html.DisplayNameFor(model => model.TransTypeDesc)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.TransTypeDesc)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Code)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Code)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+
+            </dl>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="box-footer">
+        <input type="submit" value="Enable" class="btn btn-primary pull-right" />
+    </div>
+}
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>Enable</b>");
+</script>
+

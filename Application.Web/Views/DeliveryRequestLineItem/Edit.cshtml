@@ -1,0 +1,113 @@
+﻿@model CenGts.Web.Models.ViewModels.DeliveryRequestLineItemViewModel
+
+@{
+    ViewBag.Title = "Edit";
+}
+<div id="form-container" data-url="@Url.Action("Edit","DeliveryRequestLineItem")">
+    @using (Html.BeginForm("Edit", "DeliveryRequestLineItem", FormMethod.Post, new { id = "edit-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    @Html.HiddenFor(model => model.Id)
+                    @Html.HiddenFor(model => model.ProductId)
+                    @Html.HiddenFor(model => model.DeliveryRequestLineId)
+                    @Html.HiddenFor(model => model.DeliveryRequestId)
+
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.DeliverRequestLineItemId, htmlAttributes: new { @class = "control-label col-md-3"  })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.DeliverRequestLineItemId, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.DeliverRequestLineItemId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.ItemId, htmlAttributes: new { @class = "control-label col-md-3" })
+                        <div class="col-md-10">
+                            <select class="form-control" id="ItemId" name="ItemId">
+                                <option value="ItemId" selected="selected">@Model.ItemDescription</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.ItemId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    @*<div class="form-group">
+                            @Html.LabelFor(model => model.ItemId, "ItemId", htmlAttributes: new { @class = "control-label col-md-3"  })
+                            <div class="col-md-10">
+                                @Html.DropDownList("ItemId", null, htmlAttributes: new { @class = "form-control" })
+                                @Html.ValidationMessageFor(model => model.ItemId, "", new { @class = "text-danger" })
+                            </div>
+                        </div>*@
+
+
+
+                    <div class="box-footer">
+                        <input type="submit" id="edit-submit" value="Save" class="btn btn-primary pull-right" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+</div>
+
+
+
+<script type="text/javascript">
+
+    $('#edit-submit').click(function () {
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#edit-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+
+    $('#ItemId').select2({
+        ajax: {
+            url: '@Url.Action("ItemList", "DeliveryRequestLineItem")' + '?productId=' + '@Model.ProductId' ,
+            type: "POST",
+            dataType: 'json',
+            delay: 250,
+            data: function (params) {
+                return {
+                    term: params.term,
+                    q: params.term,// search term
+                    page: params.page
+                };
+            },
+            results: function (data) {
+
+                return {
+                    results: data
+
+                };
+            },
+
+            processResults: function (data, params) {
+
+                params.page = params.page || 1;
+
+                return {
+                    results: data,
+                    pagination: {
+                        more: (params.page * 30) < data.total_count
+                    }
+                };
+            },
+
+            cache: true
+        },
+        placeholder: 'Search',
+        minimumInputLength: 3,
+        width: '540',
+
+    });
+</script>

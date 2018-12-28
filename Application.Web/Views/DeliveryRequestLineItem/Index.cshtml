@@ -1,0 +1,88 @@
+﻿@model IEnumerable<CenGts.Web.Models.ViewModels.DeliveryRequestLineItemViewModel>
+
+@{
+    ViewBag.Title = "Delivery Request Line Item Listing";
+}
+<p>
+    <button id="createBtn" type="button" class="btn btn-primary crud" data-id="@ViewBag.DeliveryRequestLineId" data-request-url="@Url.Action("Create","DeliveryRequestLineItem")">Create</button>
+    @*<a href="@Url.Action("Index","DeliveryRequestLine", new { id = @ViewBag.DeliveryRequestId } )">Back To List</a>*@
+    @Html.ActionLink("Back to list", "Index", new {Controller = "DeliveryRequestLine", id = @ViewBag.DeliveryRequestId } , new { @class = "btn btn-primary btn-large" })
+</p>
+
+@Html.Partial("_CrudModal")
+<div class="table-responsive">
+    <div class="box-body">
+        <div id="datatable_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <table id="dataTable" class="table table-bordered table-striped dataTable" role="grid" aria-describedby="datatable_info">
+                <thead>
+                    <tr>
+                        <th>
+                            @Html.DisplayNameFor(model => model.ItemDescription)
+                        </th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.ItemDescription)
+                            </td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-primary" href="#"><i class="fa fa-gear fa-fw"></i> Action</a>
+                                    <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                        <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu">
+                                        <li class="crud" data-id="@item.Id" data-product-id="@ViewBag.ProductId" data-request-url="@Url.Action("Edit")"><a>Edit</a></li>
+                                        <li class="crud" data-id="@item.Id" data-product-id="@ViewBag.ProductId" data-request-url="@Url.Action("Details")"><a>Details</a></li>
+                                        <li class="crud" data-id="@item.Id" data-product-id="@ViewBag.ProductId" data-request-url="@Url.Action("Delete")"><a>Delete</a></li>
+
+                                    </ul>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+
+     var msg = "@TempData["Message"]";
+    if (msg != "") {
+        swal("Success!", "@TempData["Message"]".toString(), "success");
+        '@TempData.Remove("Message")';
+    }
+
+    $("#dataTable").DataTable();
+
+    $("#dataTable").on("click", ".crud", function () {
+        btnClicked($(this));
+    });
+
+    $("#createBtn").click(function () {
+        btnClicked($(this));
+    });
+
+    var btnClicked = function (btnClick) {
+
+        var url = "";
+
+        if (btnClick.data('target') == "Delete") {
+             url = btnClick.data('request-url') + '?id=' + btnClick.data('id')+ '&deliveryRequestId=' +  '@ViewBag.DeliveryRequestId' + '&productId=' +  '@ViewBag.ProductId';
+        }
+        else {
+            url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&deliveryRequestId=' +  '@ViewBag.DeliveryRequestId' + '&productId=' +  '@ViewBag.ProductId';
+        }
+
+        AjaxCrudCall(url, "GET");
+
+
+    };
+
+</script>

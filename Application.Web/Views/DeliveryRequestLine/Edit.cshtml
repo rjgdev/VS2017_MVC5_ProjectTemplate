@@ -1,0 +1,178 @@
+﻿@model CenGts.Web.Models.ViewModels.DeliveryRequestLineViewModel
+
+@{
+    ViewBag.Title = "Delivery Request Line Edit";
+}
+
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("Edit","DeliveryRequestLine")">
+    @using (Html.BeginForm("Edit", "DeliveryRequestLine", FormMethod.Post, new { id = "edit-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.DeliveryRequestId)
+        @Html.HiddenFor(model => model.BrandId)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.CreatedBy)
+        @Html.HiddenFor(model => model.DateCreated)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ProductId, "Item Group", htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="ProductId" name="ProductId" required>
+                                <option value="@Model.ProductId" selected="selected">@Model.ProductDescription</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.ProductId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemId, "Item", new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="ItemId" name="ItemId" required>
+                                <option value="@Model.ItemId" selected="selected">@Model.ItemDescription</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.ItemId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemDescription, htmlAttributes: new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Brand, htmlAttributes: new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Brand, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.UomId, "Uom", new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="UomId" name="UomId" required>
+                                <option value="@Model.UomId" selected="selected">@Model.UomDescription</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.UomId, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.PickTypeId, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="PickTypeId" name="PickTypeId" required>
+                                <option value="@Model.PickTypeId" selected="selected">@Model.PickType</option>
+                            </select>
+                            @Html.ValidationMessageFor(model => model.PickTypeId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.SpecialInstructions, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-12">
+                            <textarea class="form-control z-depth-1" id="SpecialInstructions" name="SpecialInstructions" rows="3" placeholder="Write something here...">@Model.SpecialInstructions</textarea>
+                            @Html.ValidationMessageFor(model => model.SpecialInstructions, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.Memo, htmlAttributes: new { @class = "control-label col-md-6" })
+                        <div class="col-md-12">
+                            <textarea class="form-control z-depth-1" id="Memo" name="Memo" rows="3" placeholder="Write something here...">@Model.Memo</textarea>
+                            @Html.ValidationMessageFor(model => model.Memo, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="box-footer">
+            <input type="submit" id="edit-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+
+<script type="text/javascript">
+    var productId = $('select#ProductId').val();
+    var itemId = $('select#ItemId').val();
+    var customerId = $('select#CustomerId');
+
+    $('#edit-submit').click(function () {
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#edit-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+
+    var productSelectList = new CustomSelectList(['#ProductId', '@Url.Action("ProductIdList", "SelectList")', 'Search Item Group']);
+    productSelectList.init();
+
+    var itemSelectList = new CustomSelectList(['#ItemId', '@Url.Action("ItemListByProductId", "SelectList")', 'Search Item', productId]);
+    itemSelectList.init2();
+    $('#ProductId').on("select2:select", function (e) {
+        $('#ItemId').empty().trigger('change');
+        brandId = 0;
+        itemSelectList = new CustomSelectList(['#ItemId', '@Url.Action("ItemListByProductId", "SelectList")', 'Search Item', productId]);
+        itemSelectList.init2();
+        $('#ItemDescription').val('');
+        $('#Brand').val('');
+    });
+
+    $('#ItemId').on('select2:select', function (e) {
+        itemId = $(e.currentTarget).val();
+        $.ajax({
+            url: '@Url.Action("ItemDescBrandByItemCode", "SelectList")' + "?itemId=" + itemId,
+            method:"POST",
+            datatype: "json",
+            contentType: "application/json",
+            success: function (data) {
+                debugger;
+                var obj = JSON.parse(data);
+                $("#ItemDescription").val(obj.ItemDescription);
+                $("#Brand").val(obj.BrandName);
+                $("#BrandId").val(obj.BrandId);
+            }
+        });
+    });
+
+    var uomSelectList = new CustomSelectList(['#UomId', '@Url.Action("UomIdList", "SelectList")', 'Search Uom']);
+    uomSelectList.init();
+
+    var pickTypeSelectList = new CustomSelectList(['#PickTypeId', '@Url.Action("PickTypeList", "SelectList")', 'Search Pick Type']);
+    pickTypeSelectList.init();
+</script>

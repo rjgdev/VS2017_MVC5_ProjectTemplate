@@ -1,0 +1,163 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceiptLine
+@{
+    ViewBag.Title = "Expected Receipt Lines Create";
+}
+
+<style type="text/css">
+    .select2-container {
+        width: 100% !important;
+    }
+</style>
+<div id="form-container" data-url="@Url.Action("Create","ExpectedReceiptLines")">
+    @using (Html.BeginForm("Create", "ExpectedReceiptLines", FormMethod.Post, new { id = "create-form", enctype = "multipart/form-data" }))
+    {
+
+       
+        @Html.HiddenFor(model => model.BrandId)
+        @Html.HiddenFor(model => model.ItemCode)
+        @Html.HiddenFor(model => model.ExpectedReceiptId)
+        @Html.HiddenFor(model => model.GoodsReceivedNumber)
+        @Html.HiddenFor(model => model.StatusCode)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.StatusId)
+
+
+        @Html.AntiForgeryToken()
+
+         <!-- Horizontal Form -->
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ProductCode, "Item Group", new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="ProductCode" name="ProductCode" required></select>
+                            @Html.ValidationMessageFor(model => model.ProductCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemId, "Item Code", new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="ItemId" name="ItemId" required></select>
+                            @Html.ValidationMessageFor(model => model.ItemId, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.BrandName, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.BrandName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.BrandName, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ItemDescription, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.ItemDescription, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.ItemDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Batch, new { @class = "control-label" })
+                            @Html.EditorFor(model => model.Batch, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Batch, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ExpiryDate, new { @class = "control-label col-md-15" })
+                            @Html.TextBox("ExpiryDate", DateTime.Now, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.ExpiryDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Quantity, new { @class = "control-label required" })
+                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.UomDescription, new { @class = "control-label col-md-15 required" })
+                            <select class="form-control" id="UomDescription" name="UomDescription" required></select>
+                            @Html.ValidationMessageFor(model => model.UomDescription, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+
+<script type="text/javascript">
+    debugger;
+    var productCd = '';
+    var brandId = 0;
+    var itemId = 0;
+    var customerId = 0;
+    var itemCode = '';
+
+    //Select2
+    var productSelectList = new CustomSelectList(['#ProductCode', '@Url.Action("ProductList", "SelectList")', 'Search Item Group']);
+    productSelectList.init();
+
+    var itemSelectList = new CustomSelectList(['#ItemId', '@Url.Action("ItemCodeByProductCode", "SelectList")', 'Search Item Code', productCd]);
+    itemSelectList.init3();
+
+    $('#ProductCode').on("select2:select", function (e) {
+        debugger;
+        $('#ItemId').empty().trigger('change');
+        productCd = $(e.currentTarget).val();
+        itemSelectList = new CustomSelectList(['#ItemId', '@Url.Action("ItemCodeByProductCode", "SelectList")', 'Search Item Code', productCd]);
+        itemSelectList.init3();
+    });
+
+    $("#ItemId").on("select2:select", function (e) {
+        debugger;
+        var itemId = $(e.currentTarget).val();
+
+        var tempItemCode = $("#select2-ItemId-container").text();
+        itemCode = $(e.currentTarget).text();
+
+        itemCode = tempItemCode;
+        
+        if (itemId == null || itemId == '') {
+            itemId = null;
+        }
+
+        $.ajax({
+
+            url: '@Url.Action("ItemDescBrandByItemCode", "SelectList")' + "?itemId=" + itemId,
+            method:"POST",
+            datatype: "json",
+            contentType: "application/json",
+            success: function (data) {
+                debugger;
+                var obj = JSON.parse(data);
+                $("#ItemDescription").val(obj.ItemDescription);
+                $("#BrandName").val(obj.BrandName);
+                $("#BrandId").val(obj.BrandId);
+                $("#ItemCode").val(itemCode);
+            }
+        });
+    });
+
+    var uomSelectList = new CustomSelectList(['#UomDescription', '@Url.Action("UomList", "SelectList")', 'Search Uom']);
+    uomSelectList.init();
+
+    $('#create-submit').click(function () {
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Create</b>");
+
+</script>

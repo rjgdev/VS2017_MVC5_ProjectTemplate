@@ -1,0 +1,340 @@
+﻿@using System.Web.Optimization
+@using WebHelpers.Mvc5.Enum
+@using MvcSiteMapProvider.Web.Html
+@using Application.Web.Helper
+
+<!DOCTYPE html>
+<html>
+<head>
+    @*<META Http-Equiv="Cache-Control" Content="no-cache">
+    <META Http-Equiv="Pragma" Content="no-cache">
+    <META Http-Equiv="Expires" Content="0">*@
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>
+        @if (!string.IsNullOrWhiteSpace(ViewBag.Title))
+        {
+            @ViewBag.Title@: -
+        }
+        WMSLite
+    </title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+
+    @Styles.Render("~/Bundles/css")
+    <script src="@RouteJs.RouteJsHandler.HandlerUrl"></script>
+    <script src="@EnumHandler.HandlerUrl"></script>
+    <script src="~/Scripts/ckeditor/ckeditor.js"></script>
+
+    @Scripts.Render("~/Bundles/js")
+
+    @RenderSection("Scripts", required: false)
+
+    <style type="text/css">
+        /*.Highlight {
+            background-color: Highlight !important;
+        }*/
+
+        .skin-blue .main-header .navbar {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .main-header .logo {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .left-side {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .main-header .logo:hover {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .main-header .navbar .sidebar-toggle:hover {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .main-sidebar {
+            background-color: #061E3E;
+        }
+
+        .skin-blue .sidebar-menu > li.header {
+            background-color: #031225;
+            color: white;
+        }
+
+        li.treeview menu-open > li > a {
+            background-color: #1e3451;
+        }
+
+        ul.treeview-menu > li > a {
+            background-color: #1e3451;
+        }
+
+        .skin-blue .sidebar-menu > li.active > a {
+            border-left-color: red;
+            background-color: #1e3451;
+        }
+
+        .form-horizontal .control-label {
+            text-align: left;
+            margin-left: 1px;
+        }
+
+        .sidebar .sidebar-menu .active .treeview-menu {
+            display: block;
+        }
+
+
+        /*textarea {
+            resize: none;
+            height: 5em;
+            width:inherit;
+        }*/
+
+        .text-danger {
+            font-size: 11px;
+        }
+
+        label {
+            font-weight: bold;
+        }
+
+        .dl-horizontal dt {
+            text-align: left;
+        }
+
+
+        .bc-icons .breadcrumb-item + .breadcrumb-item::before {
+            content: none;
+        }
+
+        /*.siteMap {
+            padding: .7em 1em .7em 2em;
+            float: left;
+            text-decoration: none;
+            color: #444;
+            position: relative;
+            text-shadow: 0 1px 0 rgba(255,255,255,.5);
+            background-color: #ddd;
+            background-image: linear-gradient(to right, #6495ED, #ddd);
+        }
+
+        .siteMap li {
+            float: left;
+        }*/
+
+        .btn {
+            padding: 0px 10px;
+        }
+
+        div.dataTables_wrapper div.dataTables_length select {
+            min-height: 1em;
+        }
+
+        table.dataTable.tbody.tr {
+            font-size: 12px;
+        }
+
+        .box-body {
+            padding: 0px;
+        }
+
+        .content-header > h1 {
+            font-size: 20px;
+        }
+        /*.dataTables_filter {
+            width: 50%;
+            float: right;
+            text-align: right;
+        }*/
+
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        .swal-text {
+            text-align: center;
+        }
+
+        textarea.form-control {
+            resize: none;
+        }
+
+        .modal-backdrop {
+            background-color: false;
+        }
+
+        .swal-button--cancel {
+            background-color: #fb5c5c;
+            color: #fff;
+            border: none;
+            box-shadow: none;
+            border-radius: 5px;
+            font-weight: 600;
+            font-size: 14px;
+            padding: 10px 24px;
+            margin: 0;
+            cursor: pointer;
+            position: center;
+        }
+
+        .swal-button {
+            padding: 0px 10px;
+            position: center;
+        }
+
+        td.highlight {
+            background-color: whitesmoke !important;
+        }
+        /*.bc-icons .breadcrumb-item.active {
+            color: #eeeeee;
+        }*/
+        /*Spinner*/
+        /*dataTable*/
+        div.dataTables_filter {
+            text-align: right;
+        }
+
+            div.dataTables_filter label {
+                font-weight: normal;
+                white-space: nowrap;
+                text-align: left;
+            }
+        /*div.dataTables_wrapper div.dataTables_filter label {
+            float: right;
+            margin-bottom: 0;
+        }*/
+
+        div.dataTables_info {
+            padding-top: 8px;
+            white-space: nowrap;
+        }
+
+        div.dataTables_wrapper div.dataTables_paginate {
+            float: none;
+            white-space: normal;
+            /*text-align: right*/
+        }
+
+            div.dataTables_paginate ul.pagination {
+                margin: 2px 0;
+                white-space: nowrap;
+            }
+
+        div.dataTables_wrapper div.dataTables_filter label {
+            float: none;
+            text-align: center;
+        }
+
+        div.dataTables_wrapper div.dataTables_length label {
+            float: none;
+            text-align: center;
+        }
+
+        .required:after {
+            content: "*";
+            font-weight: bold;
+            color: red;
+        }
+
+        #overlay {
+            height: 100%;
+            width: 100%;
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            z-index: 99999;
+            background-color: gray;
+            filter: alpha(opacity=75);
+            -moz-opacity: 0.75;
+            opacity: 0.75;
+            display: none;
+        }
+
+            #overlay h2 {
+                position: fixed;
+                margin-left: 45%;
+                top: 40%;
+            }
+    </style>
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <div class="wrapper">
+        @Html.Partial("_Header")
+        @Html.Partial("_Sidebar")
+        <div class="content-wrapper">
+            <section class="content-header">
+                <ul class="siteMap" style="float:right">
+                    <li> @Html.MvcSiteMap().SiteMapPath()</li>
+                </ul>
+                <h1>
+                    @ViewBag.Title
+                    <small>@ViewBag.Description</small>
+                </h1>
+            </section>
+            <section class="content">
+                @RenderBody()
+            </section>
+        </div>
+        @Html.Partial("_ControlSidebar")
+    </div>
+
+    <div id="loadingDiv">
+        <div class="loading">Loading&#8230;</div>
+    </div>
+
+</body>
+</html>
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+<script>
+    //window.history.forward(1);
+       var loading = $("#loadingDiv").hide();
+       $(document)
+           .ajaxStart(function () {
+               loading.show();
+           })
+           .ajaxStop(function () {
+               loading.hide();
+           });
+
+       function AjaxCrudCall(url, methodType) {
+           $.ajax({
+               url: url,
+               method: methodType,
+               datatype: "json",
+               success: function (data) {
+                   debugger;
+                   $('#showCrud').html(data);
+                   $('#myModal').modal('show');
+               }
+           });
+       };
+
+    @*function ApiCall(apiUrl, methodType)
+    {
+        var result;
+        var url = @ConfigHelper.BaseUrl + apiUrl;
+        $.ajax({
+            url: url,
+            method: methodType,
+            datatype: "json",
+            success: function (data)
+            {
+                result = data;
+            }
+        });
+
+        return result;
+    }*@
+
+</script>

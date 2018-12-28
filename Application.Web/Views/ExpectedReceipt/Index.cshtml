@@ -1,0 +1,398 @@
+﻿@model IEnumerable<CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceipt>
+
+@{
+
+    ViewBag.Title = "Planned Receipt Listing";
+}
+
+<style type="text/css">
+    .dataTables_scroll {
+        overflow: auto;
+        position: relative;
+    }
+
+    #dataTable {
+        width: 100% !important;
+    }
+
+    /*.Highlight {
+        background-color: Highlight !important;
+    }*/
+
+    p {
+        margin: 0 0 30px;
+    }
+</style>
+
+<p>
+    <button id="createBtn" type="button" class="btn btn-primary crud" data-request-url="@Url.Action("Create")">Create</button> |
+    <a href="@Url.Action("Index", "Receipt")"> <button type="button" class="btn btn-primary">Unplanned Listing</button></a> |
+    <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+</p>
+@*@using (Html.BeginForm("Index", "Assets", FormMethod.Post))
+    {
+        <div id="formSearch" class="well" style="margin-bottom: 10px; padding-top: 0px; overflow: visible">
+            <div class="row">
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                    <p style="display: block; font-weight: bold; margin: 5px 0 0 0;">
+                        Date From
+                    </p>
+                    <div class="input-group date" id='from'>
+                        @Html.TextBox("dateFrom", null, new { @class = "form-control", Value = ViewBag.DateFrom })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6 col-sm-6 col-xs-12">
+                    <p style="display: block; font-weight: bold; margin: 5px 0 0 0;">
+                        Date To
+                    </p>
+                    <div class="input-group date" id='to'>
+                        @Html.TextBox("dateTo", null, new { @class = "form-control", Value = ViewBag.DateTo })
+                        <span class="input-group-addon">
+                            <span class="glyphicon glyphicon-calendar"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    }*@
+@Html.Partial("_LoadProcess")
+@Html.Partial("_CrudModal")
+@Html.Partial("_ExpectedReceiptFilter")
+<table id="dataTable" class="table table-stripsed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GoodsReceivedNumber)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.AutoReferenceNumber)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ReferenceNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ExpectedReceiptDate)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.WarehouseCode)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Supplier)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.HaulierName)
+                </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ReceivedBy)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StatusCode)
+            </th>
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Planned)
+                </th>*@
+            @*<th>
+                    @Html.DisplayNameFor(model => model.Comments)
+                </th>*@
+            <th>
+                Task
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.ActionLink(item.GoodsReceivedNumber, "Index", new { Controller = "ExpectedReceiptLines", item.Id, item.GoodsReceivedNumber, item.StatusCode })
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExpectedReceiptDate)
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceivedDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ReceivedBy)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.StatusCode)
+                    </td>
+                    <td>
+                        @if (item.StatusCode.Equals("For Receiving"))
+                        {
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-gear fa-fw"></i> Action</a>
+                                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="crud" data-id="@item.Id" data-request-url="@Url.Action("Edit")"><a>Edit</a></li>
+                                    <li class="crud" data-id="@item.Id" data-request-url="@Url.Action("Details")"><a>Details</a></li>
+                                    <li class="crud" data-id="@item.Id" data-request-url="@Url.Action("Delete")"><a>Disable</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else if (item.StatusCode.Equals("Received"))
+                        {
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-gear fa-fw"></i> Action</a>
+                                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                                </a>
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="crud" data-id="@item.Id" data-request-url="@Url.Action("Details")"><a>Details</a></li>
+                                    <li class="complete" data-tranid="@item.Id" href="javascript:void(0)"><a>Complete</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else if (item.StatusCode.Equals("Completed"))
+                        {
+                            <div class="btn-group">
+                                <a class="crud" data-id="@item.Id" data-request-url="@Url.Action("Details")" href="#"><i class="fa fa-gear fa-fw"></i>View Details</a>
+                            </div>
+                        }
+                    </td>
+                </tr>
+            }*@
+    </tbody>
+</table>
+@*}
+    </div>*@
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+
+<script type="text/javascript">
+  
+    //$(function () {
+
+    //    var dateFrom = $('#dateFrom').val().split('/');
+    //    var dateFromVal = new Date(dateFrom[2], dateFrom[0] - 1, dateFrom[1]);
+    //    var newDateFrom = new Date(dateFromVal.getFullYear(), dateFromVal.getMonth(), dateFromVal.getDate());
+
+    //    var dateTo = $('#dateTo').val().split('/');
+    //    var dateToVal = new Date(dateTo[2], dateTo[0] - 1, dateTo[1]);
+    //    var newDateTo = new Date(dateToVal.getFullYear(), dateToVal.getMonth(), dateToVal.getDate());
+
+    //    $('#from').datetimepicker({ format: 'L', defaultDate: newDateFrom });
+    //    $('#to').datetimepicker({ format: 'L', useCurrent: false, defaultDate: newDateFrom });
+
+    //    var dateFrom = $('#dateFrom').val().split('/');
+    //    var dateFromVal = new Date(dateFrom[2], dateFrom[0] - 1, dateFrom[1]);
+    //    var newDateFrom = new Date(dateFromVal.getFullYear(), dateFromVal.getMonth(), dateFromVal.getDate());
+
+    //    $('#dateFrom').on("dp.change", function (e) {
+    //        $('#dateTo').data("DateTimePicker").minDate(e.date);
+    //    });
+    //    $("#dateTo").on("dp.change", function (e) {
+    //        $('#dateFrom').data("DateTimePicker").maxDate(e.date);
+    //    });
+    //});
+
+    //$(document).ready(function () {
+    //    $.fn.PopulateDataTable();
+    //    $('#searchIcon').click(function () {
+    //        $('#formSearch').toggle();
+    //    });
+    //});
+
+    //$('#btnSubmit').on('click', function () {
+    //    $.fn.PopulateDataTable();
+    //})
+
+    $("#overlay").show();
+    var btnCompleted = function (btnCompleted) {
+        var tranid = btnCompleted.data('tranid');
+            swal({
+                title: "Complete Transaction",
+                text: "Are you sure you want to complete this transaction?",
+                icon: "warning",
+                buttons: {
+                    cancel: true,
+                    confirm: true,
+                },
+            }).then(function (isConfirm) {
+                location.reload();
+                if (isConfirm) {
+                    $.ajax({
+                        type: 'POST',
+                        dataType: 'json',
+                        url: "@Url.Action("Complete", "ExpectedReceipt")",
+                        data: { 'id': tranid },
+                    });
+                }
+            }) .catch(function () {
+            });
+    };
+
+    $(document).ready(function () {
+        processDataTable();
+    });
+
+    //$('#filterBtn').on('click', function () {
+    //    debugger;
+    //    $('#filterDiv')[0].hasAttribute('hidden') ? $('#filterDiv').removeAttr('hidden') : $('#filterDiv').attr('hidden', 'hidden');
+    //});
+
+    $('#submitFilter').on('click', function () {
+        processDataTable();
+        $('#filterDiv').attr('hidden', 'hidden');
+    });
+
+     var processDataTable = function ()
+    {
+        debugger;
+        var isActive = $('select#IsActive').val();
+        var StatusCode = $('select#StatusCode').val();
+        //var dateFrom = $('#dateFrom').val().split('/');
+        //var from = dateFrom[0] + "/" + dateFrom[1] + "/" + dateFrom[2];
+        //var dateTo = $('#dateTo').val().split('/');
+        //var to = dateTo[0] + "/" + dateTo[1] + "/" + dateTo[2];
+
+        if ($.fn.DataTable.isDataTable("#dataTable")) {
+            $('#dataTable').DataTable().clear().destroy();
+        }
+
+
+        debugger;
+        var oTable = $("#dataTable").DataTable(
+            {
+                ajax: ({
+                    type: 'POST',
+                    url: '@Url.Action("IndexJson")',
+                    data: {
+                        'IsActive': isActive,
+                        'StatusCode': StatusCode
+                        //'from': from,
+                        //'to': to
+                    }
+                }),
+                //stateSave: true,
+                //"language":
+                //{
+                //    "processing":"<i class='fa fa-refresh fa-spin fa-2x fa-fw'></i>"/* "<center>" + "<img style='width:500px; height:500px;' src='/Content/img/hourglass.gif'  />" + "</center>"*/,
+                //},
+                processing: true,
+                serverSide: true,
+                searchDelay: 350,
+                "pagingType": "full_numbers",
+                columns: [
+                    { data: "GoodsReceivedNumber", name: "GoodsReceivedNumber", searchable: true, orderable: true },
+                    //{ data: "AutoReferenceNumber", name: "AutoReferenceNumber", searchable: true, orderable: true },
+                    { data: "ReferenceNumber", name: "ReferenceNumber", searchable: true, orderable: true },
+                    { data: "ExpectedReceiptDate", name: "ExpectedReceiptDate", searchable: true, orderable: true },
+                    { data: "ReceivedDate", name: "ReceivedDate", searchable: true, orderable: true },
+                    { data: "ReceivedBy", name: "ReceivedBy", searchable: true, orderable: true },
+                    { data: "StatusCode", name: "StatusCode", searchable: true, orderable: true },
+                    { data: "Actions", name: "Actions", searchable: false, orderable: false }
+                ],
+                createdRow: function (row, data, index) {
+                    debugger;
+                    //if (data.IsActive == true) {
+                        $('td', row).each(function () {
+                            $(this).css('white-space', 'nowrap');
+                            $.trim($(this).text()) === "Received" ? $(this).css("color", "green") : "";
+                            $.trim($(this).text()) === "For Receiving" ? $(this).css("color", "blue") : "";
+                            $.trim($(this).text()) === "Completed" ? $(this).css("color", "orange") : "";
+
+                        });
+                    //}
+                    //else {
+                    //    $(row).addClass('Highlight');
+                    //}
+                },
+                //"scrollY": 300,
+                 fnInitComplete : function () {
+                    $("#overlay").hide();
+                }
+            });
+
+        $('#dataTable_filter input').unbind();
+        $('#dataTable_filter input').bind('keyup', function (e) {
+            debugger;
+            if (this.value.length >= 1 || e.keyCode == 13) {
+                debugger;
+                oTable.search(this.value).draw();
+            }
+            // Ensure we clear the search if they backspace far enough
+            if (this.value == "") {
+                oTable.search("").draw();
+            }
+            return;
+        });
+        $('#dataTable').wrap('<div class="dataTables_scroll" />');
+
+        //$('#dataTable > tbody  > tr td:nth-child(6)').each(function () {
+
+        //    $('#dataTable > tbody > tr td:nth-child(6)').filter(function (index) { return $.trim($(this).text()) === "Received"; }).text('Received').css("color", "green");
+        //    $('#dataTable > tbody > tr td:nth-child(6)').filter(function (index) { return $.trim($(this).text()) === "Pending"; }).text('Pending').css("color", "blue");
+        //    $('#dataTable > tbody > tr td:nth-child(6)').filter(function (index) { return $.trim($(this).text()) === "For Receiving"; }).text('For Receiving').css("color", "blue");
+        //    $('#dataTable > tbody > tr td:nth-child(6)').filter(function (index) { return $.trim($(this).text()) === "Completed"; }).text('Completed').css("color", "orange");
+        //    $('#dataTable > tbody > tr td:nth-child(6)').filter(function (index) { return $.trim($(this).text()) === "For Return"; }).text('For Return').css("color", "red");
+        //});
+    }
+
+    //$(document).ready(function () {
+    //    var table = $('#dataTable').DataTable({
+    //        responsive: true,
+    //        //stateSave: true,
+    //        "pagingType": "full_numbers",
+    //        "scrollY": 300,
+    //        "scrollX": 100,
+    //        autoWidth: true,
+    //    }).columns.adjust();
+
+    //    $('#dataTable tbody')
+    //        .on('mouseenter', 'td', function () {
+    //            var colIdx = table.cell(this).index().column;
+
+    //            $(table.cells().nodes()).removeClass('highlight');
+    //            $(table.column(colIdx).nodes()).addClass('highlight');
+
+    //        });
+
+    //    $(".dataTables_scrollHeadInner").css({ "width": "100%" });
+    //    $(".table ").css({ "width": "100%" });
+
+    //});
+
+    //$("#dataTable").on("click", ".crud", function () {
+    //    btnClicked($(this));
+    //});
+
+     $(".crud").on('click', function () {
+         debugger;
+         btnClicked($(this));
+     });
+
+    $("#createBtn").click(function () {
+        btnClicked($(this));
+    });
+
+    var btnClicked = function (btnClick) {
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&StatusCd=' + btnClick.data('status') + '&id=' + btnClick.data('completeId');
+        AjaxCrudCall(url, "GET");
+    };
+
+   var msg = "@TempData["Message"]".toString().replace(/&quot;/g, '\"').replace(/&amp;/g, '&').replace(/&#39;/, "'").replace(/&gt;/, '>').replace(/&lt;/, '<')
+    var msgAlert = "@TempData["MessageAlert"]".toString();
+
+    if (msg != "") {
+
+        $(document).ready(function () {
+            swal(/*"Success!", */"", msg , "@TempData["MessageAlert"]".toString());
+        });
+            '@TempData.Remove("Message")';
+            '@TempData.Remove("MessageAlert")';
+    }
+</script>

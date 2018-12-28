@@ -1,0 +1,163 @@
+﻿@model IEnumerable<CenGts.Web.Models.ViewModels.ItemViewModel>
+@{
+    ViewBag.Title = "Item Listing";
+}
+
+<style>
+    .dataTables_scroll {
+        overflow: auto;
+        position: relative;
+    }
+
+    #dataTable {
+        width: 100% !important;
+    }
+
+    p {
+        margin: 0 0 30px;
+    }
+</style>
+
+<p>
+    <button id="createBtn" type="button" class="btn btn-primary crud" data-request-url="@Url.Action("Create")">Create</button> |
+    <button id="uploadBtn" type="button" class="btn btn-primary crud" data-request-url="@Url.Action("FileUpload")">File Upload</button> |
+    <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+</p>
+@Html.Partial("_LoadProcess")
+@Html.Partial("_CrudModal")
+@Html.Partial("_ListFilter")
+<table id="dataTable" class="table table-stripsed table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ItemCode)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+            @*<th>
+                @Html.DisplayNameFor(model => model.WarehouseDesc)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LocationDesc)
+            </th>*@
+            @*<th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>*@
+            <th>
+                Task
+            </th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+<script type="text/javascript">
+
+    $("#overlay").show();
+  var msg = "@TempData["Message"]".toString().replace(/&quot;/g, '\"').replace(/&amp;/g, '&').replace(/&#39;/, "'").replace(/&gt;/, '>').replace(/&lt;/, '<')
+
+    var msgAlert = "@TempData["MessageAlert"]".toString();
+
+    if (msg != "") {
+
+        $(document).ready(function () {
+            swal(/*"Success!", */"", msg , "@TempData["MessageAlert"]".toString());
+        });
+            '@TempData.Remove("Message")';
+            '@TempData.Remove("MessageAlert")';
+    }
+    $(document).ready(function () {
+        processDataTable();
+    });
+
+    $(".crud").click(function () {
+        btnClicked($(this));
+    });
+
+    var btnClicked = function (btnClick) {
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+    };
+
+    $('#submitFilter').on('click', function () {
+        processDataTable();
+        $('#filterDiv').attr('hidden', 'hidden');
+    });
+
+    var processDataTable = function ()
+    {
+        debugger;
+
+        var isActive = $('select#IsActive').val();
+
+        if ($.fn.DataTable.isDataTable("#dataTable")) {
+            $('#dataTable').DataTable().clear().destroy();
+        }
+
+        var oTable = $("#dataTable").DataTable(
+            {
+                ajax: ({
+                    type: 'POST',
+                    url: '@Url.Action("IndexJson")',
+                    data: {
+                        'IsActive': isActive
+                    }
+                }),
+                //stateSave: true,
+                //"language":
+                //{
+                //    "processing": "<i class='fa fa-refresh fa-spin fa-2x fa-fw'></i>"
+                //},
+                processing: true,
+                serverSide: true,
+                "pagingType": "full_numbers",
+                columns: [
+                    { data: "ProductDesc", name: "ProductDesc", searchable: true, orderable: true },
+                    { data: "BrandName", name: "BrandName", searchable: true, orderable: true },
+                    { data: "ItemCode", name: "ItemCode", searchable: true, orderable: true },
+                    { data: "Description", name: "Description", searchable: true, orderable: true },
+                    //{ data: "WarehouseDesc", name: "WarehouseDesc", searchable: true, orderable: true },
+                    //{ data: "LocationDesc", name: "LocationDesc", searchable: true, orderable: true },
+                    //{ data: "Quantity", name: "Quantity", searchable: true, orderable: true },
+                    { data: "Actions", name: "Actions", searchable: false, orderable: false }
+                ],
+                createdRow: function (row, data, index) {
+                    if (data.IsActive) {
+                        $('td', row).each(function () {
+                            $(this).css('white-space', 'nowrap');
+                        });
+                    }
+                    else {
+                        $(row).addClass('Highlight');
+                    }
+                },
+                fnInitComplete: function () {
+                    $("#overlay").hide();
+                }
+                //"scrollY": 300,
+            });
+
+        $('#dataTable_filter input').unbind();
+        $('#dataTable_filter input').bind('keyup', function (e) {
+            if (this.value.length >= 1 || e.keyCode == 13) {
+                debugger;
+                oTable.search(this.value).draw();
+            }
+            // Ensure we clear the search if they backspace far enough
+            if (this.value == "") {
+                oTable.search("").draw();
+            }
+            return;
+        });
+        $('#dataTable').wrap('<div class="dataTables_scroll" />');
+    };
+
+</script>

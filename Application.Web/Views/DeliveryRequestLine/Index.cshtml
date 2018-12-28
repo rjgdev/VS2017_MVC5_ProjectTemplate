@@ -1,0 +1,148 @@
+﻿@model IEnumerable<CenGts.Web.Models.ViewModels.DeliveryRequestLineViewModel>
+@{
+    ViewBag.Title = "Delivery Request Line Listing";
+}
+
+<style>
+    .dataTables_scroll {
+        overflow: auto;
+        position: relative;
+    }
+
+    #dataTable {
+        width: 100% !important;
+    }
+</style>
+
+<p>
+    @Html.ActionLink("Back to list", "Index", new { Controller = "DeliveryRequest" }, new { @class = "btn btn-primary btn-large" }) |
+    @if (ViewBag.StatusId != 15)
+    {
+        var or = " |";
+        <button id="createBtn" type="button" class="btn btn-primary crud" data-request-url="@Url.Action("Create", new { id = ViewBag.DeliveryRequestId })">Create</button> @or
+    }
+    <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+</p>
+@Html.Partial("_LoadProcess")
+@Html.Partial("_CrudModal")
+@Html.Partial("_ListFilter")
+<div class="table-responsive">
+    <div class="box-body">
+        <table id="dataTable" class="table table-bordered table-striped dataTable">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.PickType)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ProductDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Brand)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ItemDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.UomDescription)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.Quantity)
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
+</div>
+
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+<script type="text/javascript">
+
+    $("#overlay").show();
+    var msg = "@TempData["Message"]";
+    if (msg != "") {
+        swal("Success!", "@TempData["Message"]".toString(), "success");
+        '@TempData.Remove("Message")';
+    } 
+    
+    $(document).ready(function () {
+        processDataTable();
+    });
+
+    $(".crud").click(function () {
+        debugger;
+        btnClicked($(this));
+    });
+
+    var btnClicked = function (btnClick) {
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+    };
+
+    $('#submitFilter').on('click', function () {
+        processDataTable();
+        $('#filterDiv').attr('hidden', 'hidden');
+    });
+
+    var processDataTable = function ()
+    {
+        debugger;
+        var isActive = $('select#IsActive').val();
+        var headerId = @ViewBag.DeliveryRequestId;
+
+        if ($.fn.DataTable.isDataTable("#dataTable")) {
+            $('#dataTable').DataTable().clear().destroy();
+        }
+
+        var oTable = $("#dataTable").DataTable(
+            {
+                ajax: ({
+                    type: 'POST',
+                    url: '@Url.Action("IndexJson")',
+                    data: {
+                        'IsActive': isActive,
+                        'HeaderId': headerId
+                    }
+                }),
+                //stateSave: true,
+                //"language":
+                //{
+                //    "processing": "<i class='fa fa-refresh fa-spin fa-2x fa-fw'></i>"
+                //},
+                processing: true,
+                serverSide: true,
+                "pagingType": "full_numbers",
+                columns: [
+                    { data: "PickType", name: "PickType", searchable: true, orderable: true },
+                    { data: "ProductDescription", name: "ProductDescription", searchable: true, orderable: true },
+                    { data: "Brand", name: "Brand", searchable: true, orderable: true },
+                    { data: "ItemDescription", name: "ItemDescription", searchable: true, orderable: true },
+                    { data: "UomDescription", name: "UomDescription", searchable: true, orderable: true },
+                    { data: "Quantity", name: "Quantity", searchable: true, orderable: true },
+                    { data: "Actions", name: "Actions", searchable: false, orderable: false }
+                ],
+                createdRow: function (row, data, index) {
+                    $('td', row).each(function () {
+                        $(this).css('white-space', 'nowrap');
+                    });
+                },
+                fnInitComplete: function () {
+                    $("#overlay").hide();
+                }
+                //"scrollY": 300,
+
+            });
+
+        //$('#dataTable_filter input').unbind();
+        //$('#dataTable_filter input').bind('keyup', function (e) {
+        //    if (e.keyCode == 13) {
+        //        debugger;
+        //        oTable.search(this.value).draw();
+        //    }
+        //});
+        $('#dataTable').wrap('<div class="dataTables_scroll" />');
+    }
+
+</script>

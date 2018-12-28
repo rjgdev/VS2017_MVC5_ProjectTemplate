@@ -1,0 +1,90 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceiptLine
+@{
+    ViewBag.Title = "Expected Receipt Lines Enable";
+}
+
+
+
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Are you sure you want to enable this record again?
+</div>
+<div class="box-body">
+    <div class="col-md-12">
+        <dl class="dl-horizontal">
+            <dt>
+                @Html.DisplayNameFor(model => model.ProductCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ProductCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ItemDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ItemDescription)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ItemCode)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ItemCode)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.BrandName)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.BrandName)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Batch)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Batch)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.ExpiryDate)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.ExpiryDate)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.Quantity)
+            </dd>
+            <dt>
+                @Html.DisplayNameFor(model => model.UomDescription)
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.UomDescription)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="box-footer">
+    @using (Html.BeginForm())
+    {
+        @Html.HiddenFor(model => model.ReferenceNumber, new { Value = ViewBag.ReferenceNum })
+        @Html.AntiForgeryToken()
+        <input type="submit" value="Enable" class="btn btn-primary pull-right" />
+        @*| @Html.ActionLink("Back to List", "Index")*@
+    }
+</div>
+
+<script type="text/javascript">
+
+    $('.modal-title').html("<b>Enable</b>");
+
+</script>

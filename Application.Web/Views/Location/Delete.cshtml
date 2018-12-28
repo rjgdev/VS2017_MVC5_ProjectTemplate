@@ -1,0 +1,42 @@
+﻿@model CenGts.Web.Models.ViewModels.LocationViewModel
+@{
+    ViewBag.Title = "Location Delete";
+}
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Deleting this records cannot be undone. Are you sure you want to proceed?
+</div>
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.WarehouseDescription)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.WarehouseDescription)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="box-footer">
+        <input type="submit" value="Delete" class="btn btn-danger pull-right" />
+    </div>
+}
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>Delete</b>");
+</script>

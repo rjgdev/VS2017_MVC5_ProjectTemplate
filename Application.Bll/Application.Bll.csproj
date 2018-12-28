@@ -1,0 +1,134 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="14.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{C0B11602-D08E-42D3-A8F9-55489124C84B}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Application.Bll</RootNamespace>
+    <AssemblyName>Application.Bll</AssemblyName>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>Svn</SccProjectName>
+    <SccLocalPath>Svn</SccLocalPath>
+    <SccAuxPath>Svn</SccAuxPath>
+    <SccProvider>SubversionScc</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="BrandService.cs" />
+    <Compile Include="CustomerClientService.cs" />
+    <Compile Include="DeliveryRequestLineItemService.cs" />
+    <Compile Include="DeliveryRequestLineService.cs" />
+    <Compile Include="HaulierService.cs" />
+    <Compile Include="Interfaces\IAccountService.cs" />
+    <Compile Include="Interfaces\IBrandService.cs" />
+    <Compile Include="Interfaces\ICustomerClient.cs" />
+    <Compile Include="Interfaces\ICustomerClientService.cs" />
+    <Compile Include="Interfaces\IGenericServiceAsync.cs" />
+    <Compile Include="Interfaces\IHaulierService.cs" />
+    <Compile Include="Interfaces\IItemStockService.cs" />
+    <Compile Include="Interfaces\ILicenseService.cs" />
+    <Compile Include="Interfaces\IDeliveryRequestService.cs" />
+    <Compile Include="Interfaces\IEventLogService.cs" />
+    <Compile Include="Interfaces\IRolesService.cs" />
+    <Compile Include="Interfaces\IShipmentConfigService.cs" />
+    <Compile Include="Interfaces\IStatusService.cs" />
+    <Compile Include="Interfaces\ICustomerService.cs" />
+    <Compile Include="ExpectedReceiptLineService.cs" />
+    <Compile Include="ExpectedReceiptService.cs" />
+    <Compile Include="Interfaces\IExpectedReceiptLineService.cs" />
+    <Compile Include="Interfaces\IExpectedReceiptService.cs" />
+    <Compile Include="Interfaces\IDeliveryRequestLineItemService.cs" />
+    <Compile Include="Interfaces\IDeliveryRequestLineService.cs" />
+    <Compile Include="Interfaces\ITransactionTypeService.cs" />
+    <Compile Include="Interfaces\IVendorService.cs" />
+    <Compile Include="Interfaces\IPickTypeService.cs" />
+    <Compile Include="ItemStockService.cs" />
+    <Compile Include="LicenseService.cs" />
+    <Compile Include="DeliveryRequestService.cs" />
+    <Compile Include="EventLogService.cs" />
+    <Compile Include="CustomerService.cs" />
+    <Compile Include="Interfaces\IGenericService.cs" />
+    <Compile Include="Interfaces\IItemService.cs" />
+    <Compile Include="Interfaces\ILocationService.cs" />
+    <Compile Include="Interfaces\IProductService.cs" />
+    <Compile Include="Interfaces\IUomService.cs" />
+    <Compile Include="ItemService.cs" />
+    <Compile Include="Interfaces\IWarehouseService.cs" />
+    <Compile Include="LocationService.cs" />
+    <Compile Include="Models\DeliveryRequestBindingModel.cs" />
+    <Compile Include="Models\ExpectedReceiptBindingModel.cs" />
+    <Compile Include="Models\ExpectedReceiptLineBindingModel.cs" />
+    <Compile Include="Models\ItemBindingModel.cs" />
+    <Compile Include="Models\ItemStockBindingModel.cs" />
+    <Compile Include="Models\TransactionTypeBindingModel.cs" />
+    <Compile Include="Models\UserBindingModel.cs" />
+    <Compile Include="Models\WarehouseBindingModel.cs" />
+    <Compile Include="PickTypeService.cs" />
+    <Compile Include="ProductService.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="ShipmentConfigService.cs" />
+    <Compile Include="StatusService.cs" />
+    <Compile Include="TransactionTypeService.cs" />
+    <Compile Include="UomService.cs" />
+    <Compile Include="VendorService.cs" />
+    <Compile Include="WarehouseService.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="app.config">
+      <SubType>Designer</SubType>
+    </None>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Application.Data\Application.Data.csproj">
+      <Project>{44b41bb9-eb1b-46e1-8275-5fa14b051eec}</Project>
+      <Name>Application.Data</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Application.Model\Application.Model.csproj">
+      <Project>{2F5E892C-C9C8-4140-AB2E-7C9A4B7A30C3}</Project>
+      <Name>Application.Model</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

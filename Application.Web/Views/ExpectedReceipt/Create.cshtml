@@ -1,0 +1,190 @@
+﻿@model CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceipt
+@{
+    ViewBag.Title = "Expected Receipt Create";
+}
+
+<style type="text/css">
+    hr.style5 {
+        background-color: #fff;
+        border-top: 2px dashed #8c8b8b;
+    }
+
+    .shadow-textarea textarea.form-control::placeholder {
+        font-weight: 300;
+    }
+
+    .shadow-textarea textarea.form-control {
+        padding-left: 0.8rem;
+    }
+
+    .select2-container {
+        width: 100% !important;
+    }
+
+    input, optgroup, select, textarea {
+        margin: 5px;
+    }
+</style>
+
+<div id="form-container" data-url="@Url.Action("Create","ExpectedReceipt")">
+    @using (Html.BeginForm("Create", "ExpectedReceipt", FormMethod.Post, new { id = "create-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.GoodsReceivedNumber)
+        @Html.HiddenFor(model => model.AutoReferenceNumber)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.Supplier)
+
+         <!-- Horizontal Form -->
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ReferenceNumber, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.ReferenceNumber, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.ReferenceNumber, "", new { @class = "text-danger" })
+                            <input onclick="return change(this)" type="button" value="Input Reference Number" name="button1" id="disablebutton">
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.ExpectedReceiptDate, new { @class = "control-label col-md-15 required" })
+                            @Html.TextBox("ExpectedReceiptDate", DateTime.Now, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date", min = DateTime.Now.ToString("yyyy-MM-dd") })
+                            @Html.ValidationMessageFor(model => model.ExpectedReceiptDate, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Supplier, new { @class = "control-label" })
+                            <select class="form-control" id="VendorId" name="VendorId"></select>
+                            @*@Html.EditorFor(model => model.Supplier, new { htmlAttributes = new { @class = "form-control" } })*@
+                            @Html.ValidationMessageFor(model => model.Supplier, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.HaulierId, "Haulier", new { @class = "control-label" })
+                            <select class="form-control" id="HaulierId" name="HaulierId"></select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.WarehouseCode, "Warehouse", new { @class = "control-label required" })
+                            <select class="form-control" id="WarehouseCode" name="WarehouseCode" required></select>
+                            @Html.ValidationMessageFor(model => model.WarehouseCode, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Address, new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Address, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Address, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                    <div class="form-group shadow-textarea">
+                        @Html.LabelFor(model => model.Comments, new { @class = "control-label col-md-3" })
+                        <div class="col-md-12">
+                            <textarea class="form-control z-depth-1" id="Comments" name="Comments" rows="3" placeholder="Write something here..."></textarea>
+                            @Html.ValidationMessageFor(model => model.Comments, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<link href="~/Content/css-select2/select2.css" rel="stylesheet" />
+<script src="~/Content/js-select2/select2.js"></script>
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+
+<script type="text/javascript">
+    var refnum = $('#ReferenceNumber').val();
+
+    function change(el)
+    {
+        debugger;
+        if (el.value === "Input Reference Number")
+            el.value = "Generate Reference Number";
+        else
+            el.value = "Input Reference Number";
+    }
+
+    $('#disablebutton').click(function () {
+        debugger;
+        if ($('#ReferenceNumber').prop('readonly'))
+        {
+            $('#ReferenceNumber').removeAttr('readonly');
+            $('#ReferenceNumber').val("");
+        }
+        else
+        {
+            $('#ReferenceNumber').attr('readonly', 'readonly');
+            $('#ReferenceNumber').val(refnum);
+
+            $('#validationSum').text("");
+        }
+    });
+
+    //Select2
+    var vendorSelectList = new CustomSelectList(['#VendorId', '@Url.Action("VendorIdList", "SelectList")', 'Search Supplier']);
+    vendorSelectList.init();
+    $('#VendorId').on('select2:select', function (e) {
+        debugger;
+        var data = $(e.currentTarget).select2('data')[0];
+        $('#Supplier').val(data.text);
+    });
+
+    var warehouseSelectList = new CustomSelectList(['#WarehouseCode', '@Url.Action("WarehouseList", "SelectList")', 'Search Warehouse']);
+    warehouseSelectList.init();
+
+    $('#WarehouseCode').on('select2:select', function (e) {
+        debugger;
+        var data = $(e.currentTarget).select2('data')[0];
+        $('#Address').val(data.otherField)
+    });
+
+    var haulierSelectList = new CustomSelectList(['#HaulierId', '@Url.Action("HaulierList", "SelectList")', 'Search Haulier']);
+    haulierSelectList.init();
+
+    $('#ReferenceNumber').change(function () {
+        debugger;
+        var referenceNumber = $("#ReferenceNumber").val();
+        var customerId = $("#CustomerId").val();
+
+        $.ajax({
+            url: '@Url.Action("ValidateReferenceNumber", "ExpectedReceipt")' + "?referenceNumber=" + referenceNumber + "&customerId=" + customerId,
+             method: "POST",
+            datatype: "json",
+            contentType: "application/json",
+            success: function (data) {
+                //$('.field-validation-error').remove(data.message);
+                debugger;
+                if (data.message == "Reference Number is already taken.") {
+                    $('#validationSum').remove();
+                    $('#ReferenceNumber').parent().append('<span class="text-danger field-validation-error" id="validationSum">' + data.message + '</span>');
+
+                }
+                else {
+                    $('.field-validation-error').remove(data.message);
+                }
+            },
+        });
+    });
+
+    $('#create-submit').click(function () {
+        debugger;
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('attach');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Create</b>");
+</script>

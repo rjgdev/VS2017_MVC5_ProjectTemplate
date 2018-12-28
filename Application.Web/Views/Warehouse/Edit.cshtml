@@ -1,0 +1,73 @@
+﻿@model CenGts.Web.Models.ViewModels.WarehouseViewModel
+
+@{
+    ViewBag.Title = "Warehouse Edit";
+}
+<div id="form-container" data-url="@Url.Action("Edit","Warehouse")">
+    @using (Html.BeginForm("Edit", "Warehouse", FormMethod.Post, new { id = "edit-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.Id);
+        @Html.HiddenFor(x => x.CustomerId)
+        @Html.HiddenFor(x => x.IsActive)
+        @Html.HiddenFor(x => x.CreatedBy)
+        @Html.HiddenFor(x => x.DateCreated)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.WarehouseCode, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.WarehouseCode, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.WarehouseCode, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Address1, "Address 1", htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Address1, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address1, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            @Html.LabelFor(model => model.Address2, "Address 2 (Optional)", htmlAttributes: new { @class = "control-label col-md-15" })
+                            @Html.EditorFor(model => model.Address2, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Address2, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="edit-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+
+    $('#edit-submit').click(function () {
+        $('input:disabled').removeAttr('disabled');
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#edit-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+</script>

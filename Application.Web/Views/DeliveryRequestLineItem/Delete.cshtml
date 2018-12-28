@@ -1,0 +1,39 @@
+﻿@model CenGts.Web.Models.ViewModels.DeliveryRequestLineItemViewModel
+
+@{
+    ViewBag.Title = "Delete";
+}
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Deleting this records cannot be undone. Are you sure you want to proceed?
+</div>
+<div>
+
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ItemDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ItemDescription)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm())
+            {
+        @Html.AntiForgeryToken()
+        @Html.HiddenFor(model => model.DeliveryRequestLineId)
+        @Html.HiddenFor(model => model.ProductId)
+        @Html.HiddenFor(model => model.DeliveryRequestId)
+        <div class="box-footer">
+            <input type="submit" value="Delete" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>Delete</b>");
+</script>

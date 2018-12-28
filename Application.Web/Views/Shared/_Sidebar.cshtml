@@ -1,0 +1,119 @@
+﻿@using WebHelpers.Mvc5
+@using Application.Web.Helper
+<aside class="main-sidebar">
+    <section class="sidebar">
+        @* BEGIN Search *@
+        @*<form action="#" method="get" class="sidebar-form">
+                <div class="input-group">
+                    <input type="text" name="q" class="form-control" placeholder="Search...">
+                    <span class="input-group-btn">
+                        <button type="submit" name="search" id="search-btn" class="btn btn-flat">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </span>
+                </div>
+            </form>*@
+        @* END Search *@
+        @* BEGIN Menu *@
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header">MENU</li>
+            <li class="active">
+                <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span>Home</span></a>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-gears"></i> <span>Inbound Transaction</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index", "ExpectedReceipt")">Planned Receipt</a></li>
+                    @*<li><a href="#">Unplanned Receipt</a></li>*@
+                    <li><a href="@Url.Action("Index", "Receipt")">Unplanned Receipt</a></li>
+                </ul>
+            </li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-gears"></i> <span>Outbound Transaction</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li><a href="@Url.Action("Index", "DeliveryRequest")">Delivery Request</a></li>
+                </ul>
+            </li>
+            @*<li class="@Url.IsLinkActive("AnotherLink", "Home")">
+                    <a href="@Url.Action("AnotherLink", "Home")"><i class="fa fa-file-excel-o"></i> <span>Reports</span></a>
+                </li>*@
+            @if (MyUser.IsInRole("Administrator") || MyUser.IsInRole("Warehouse Administrator"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-gears"></i> <span>File Maintainance</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        @if (MyUser.IsInRole("Administrator"))
+                        {
+                            <li><a href="@Url.Action("Index", "Customer")">Company</a></li>
+                        }
+                        <li><a href="@Url.Action("Index", "CustomerClient")">Customer</a></li>
+                        <li><a href="@Url.Action("Index", "Uom")">Uom</a></li>
+                        <li><a href="@Url.Action("Index", "Haulier")">Haulier</a></li>
+                        <li><a href="@Url.Action("Index", "Vendor")">Vendor</a></li>
+                        <li><a href="@Url.Action("Index", "Warehouse")">Warehouses</a></li>
+                        <li><a href="@Url.Action("Index", "Location")">Locations</a></li>
+                        <li><a href="@Url.Action("Index", "Product")">Item Group Master</a></li>
+                        <li><a href="@Url.Action("Index", "Brand")">Brand Master</a></li>
+                        <li><a href="@Url.Action("Index", "Item")">Item Master</a></li>
+
+                        @if (MyUser.IsInRole("Administrator"))
+                        {
+                        <li><a href="@Url.Action("Index", "TransactionTypes")">Transaction Types</a></li>
+                        <li><a href="@Url.Action("Index", "TransactionStatus")">Transaction Status</a></li>
+                        }
+                        <li><a href="@Url.Action("Index", "PickType")">Pick Types</a></li>
+                    </ul>
+                    @*<ul class="treeview-menu">
+                            <li><a href="@Url.Action("Index", "Customer")">Company</a></li>
+                            <li><a href="@Url.Action("Index", "CustomerClient")">Customer</a></li>
+                            <li><a href="@Url.Action("Index", "Vendor")">Vendor</a></li>
+                            <li class="list-seperator"></li>
+                            <li><a href="@Url.Action("Index", "Haulier")">Haulier</a></li>
+                            <li><a href="@Url.Action("Index", "Warehouse")">Warehouses</a></li>
+                            <li><a href="@Url.Action("Index", "Location")">Locations</a></li>
+                            <li class="list-seperator"></li>
+                            <li><a href="@Url.Action("Index", "Product")">Item Group Master</a></li>
+                            <li><a href="@Url.Action("Index", "Brand")">Brand Master</a></li>
+                            <li><a href="@Url.Action("Index", "Item")">Item Master</a></li>
+                            <li><a href="@Url.Action("Index", "Uom")">Uom</a></li>
+                            <li class="list-seperator"></li>
+                            <li><a href="@Url.Action("Index", "TransactionTypes")">Transaction Types</a></li>
+                            <li><a href="@Url.Action("Index", "TransactionStatus")">Transaction Status</a></li>
+                            <li><a href="@Url.Action("Index", "PickType")">Pick Types</a></li>
+                            <li><a href="@Url.Action("Index", "Dispatch")">Dispatch</a></li>
+                        </ul>*@
+                </li>
+            }
+            @if (MyUser.IsInRole("Warehouse Administrator") || MyUser.IsInRole("Administrator"))
+            {
+                <li class="treeview">
+                    <a href="#">
+                        <i class="fa fa-gears"></i> <span>User Management</span>
+                        <span class="pull-right-container">
+                            <i class="fa fa-angle-left pull-right"></i>
+                        </span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li><a href="@Url.Action("Index", "User")">Users</a></li>
+                    </ul>
+                </li>
+            }
+        </ul>
+        @* END Menu *@
+    </section>
+</aside>

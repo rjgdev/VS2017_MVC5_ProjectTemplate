@@ -1,0 +1,302 @@
+﻿@model IEnumerable<CenGts.Web.Models.ViewModels.ExpectedReceiptViewModel.ExpectedReceiptLine>
+
+@{
+
+    ViewBag.Title = "Planned Receipt Lines Listing";
+}
+
+<style type="text/css">
+
+    .dataTables_scroll {
+        overflow: auto;
+        position: relative;
+    }
+
+    #dataTable {
+        width: 100% !important;
+    }
+
+    p {
+        margin: 0 0 30px;
+    }
+</style>
+
+@if (ViewBag.StatCode == "For Receiving")
+{
+    if (ViewBag.IsAct == true)
+    {
+        <p>
+            <a href="@Url.Action("Index", "ExpectedReceipt")"> <button type="button" class="btn btn-danger">Back to header</button></a> |
+            <button id="createBtn" type="button" class="btn btn-primary crud" data-status="@ViewBag.StatCode" data-grn="@ViewBag.GoodsReceivedNo" data-request-url="@Url.Action("Create", "ExpectedReceiptLines", new { id = ViewBag.ExpectedReceiptId})">Create</button> |
+
+            <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+        </p>
+        <p style="color: blue; font-size: 15px; margin: 25px 0 0 0;">@Html.Raw(ViewBag.StatCode)</p>
+    }
+    else
+    {
+        <p>
+            <a href="@Url.Action("Index", "ExpectedReceipt")"> <button type="button" class="btn btn-danger">Back to header</button></a> |
+            <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+        </p>
+        <p style="color: blue; font-size: 15px; margin: 25px 0 0 0;">@Html.Raw(ViewBag.StatCode)</p>
+    }
+
+}
+else if (ViewBag.StatCode == "Received")
+{
+    <p>
+        <a href="@Url.Action("Index", "ExpectedReceipt")"> <button type="button" class="btn btn-danger">Back to header</button></a> |
+        <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+    </p>
+
+    <p style="color: green; font-size: 15px; margin: 25px 0 0 0;">@Html.Raw(ViewBag.StatCode)</p>
+}
+else if (ViewBag.StatCode == "Completed")
+{
+    <p>
+        <a href="@Url.Action("Index", "ExpectedReceipt")"> <button type="button" class="btn btn-danger">Back to header</button></a> |
+        <button id="filterBtn" type="button" class="btn btn-primary">Filter</button>
+    </p>
+    <p style="color: orange; font-size: 15px; margin: 25px 0 0 0;">@Html.Raw(ViewBag.StatCode)</p>
+}
+
+<p style="color: black; font-size: 25px; margin: 1px 0 0 0;">GRN Number: @Html.Raw(ViewBag.GoodsReceivedNo)</p>
+<p style="display: block; font-weight: bold; margin: 25px 0 0 0;"></p>
+@Html.Partial("_LoadProcess")
+@Html.Partial("_CrudModal")
+@Html.Partial("_ListFilter")
+    <table id="dataTable" class="table table-stripsed table-bordered table-hover">
+        <thead>
+            <tr>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Line)
+                    </th>*@
+                @*<th>
+                        @Html.DisplayNameFor(model => model.ProductCode)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.BrandName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.ItemDescription)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.Batch)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.ExpiryDate)
+                    </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Quantity)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UomDescription)
+                </th>
+                @*<th>
+                        @Html.DisplayNameFor(model => model.ReceivedDate)
+                    </th>*@
+                <th>
+                    Task
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @*@foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BrandName)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ItemDescription)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Quantity)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UomDescription)
+                    </td>
+                    <td>
+                        @if (ViewBag.StatCode == "For Receiving" || ViewBag.StatCode == null )
+                        {
+                            <div class="btn-group">
+                                <a class="btn btn-primary" href="#"><i class="fa fa-gear fa-fw"></i> Action</a>
+                                <a class="btn btn-primary dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <span class="fa fa-caret-down" title="Toggle dropdown menu"></span>
+                                </a>
+
+                                <ul class="dropdown-menu" role="menu">
+                                    <li class="crud" data-id="@item.Id" data-status="@ViewBag.StatCode" data-grn="@ViewBag.GoodsReceivedNo" data-request-url="@Url.Action("Edit")"><a>Edit</a></li>
+                                    <li class="crud" data-id="@item.Id" data-status="@ViewBag.StatCode" data-grn="@ViewBag.GoodsReceivedNo" data-request-url="@Url.Action("Details")"><a>Details</a></li>
+                                    <li data-target="Delete" class="crud" data-id="@item.Id" data-status="@ViewBag.StatCode" data-grn="@ViewBag.GoodsReceivedNo" data-request-url="@Url.Action("Delete")"><a>Disable</a></li>
+                                </ul>
+                            </div>
+                        }
+                        else if (ViewBag.StatCode == "Completed" || ViewBag.StatCode == "Received")
+                        {
+                            <div class="btn-group">
+                                <a class="crud" data-id="@item.Id" data-status="@ViewBag.StatCode" data-request-url="@Url.Action("Details")" href="#"><i class="fa fa-gear fa-fw"></i>View Details</a>
+                            </div>
+                        }
+                        
+                    </td>
+                </tr>
+            }*@
+        </tbody>
+    </table>
+
+@*<script type="text/javascript" src="~/Scripts/CustomSelectList.js"></script>*@
+<script type="text/javascript">
+
+    $("#overlay").show();
+ var msg = "@TempData["Message"]".toString().replace(/&quot;/g, '\"').replace(/&amp;/g, '&').replace(/&#39;/, "'").replace(/&gt;/, '>').replace(/&lt;/, '<')
+
+    var msgAlert = "@TempData["MessageAlert"]".toString();
+
+    if (msg != "") {
+
+        $(document).ready(function () {
+            swal(/*"Success!", */"", msg , "@TempData["MessageAlert"]".toString());
+        });
+            '@TempData.Remove("Message")';
+            '@TempData.Remove("MessageAlert")';
+    }
+
+    $(document).ready(function () {
+        processDataTable();
+    });
+
+    $('#submitFilter').on('click', function () {
+        processDataTable();
+        $('#filterDiv').attr('hidden', 'hidden');
+    });
+
+      var processDataTable = function ()
+      {
+        debugger;
+        var isActive = $('select#IsActive').val();
+        var headerId = @ViewBag.ExpectedReceiptId;
+
+        if ($.fn.DataTable.isDataTable("#dataTable")) {
+            $('#dataTable').DataTable().clear().destroy();
+        }
+
+        var oTable = $("#dataTable").DataTable(
+            {
+                ajax: ({
+                    type: 'POST',
+                    url: '@Url.Action("IndexJson")',
+                    data: {
+                        'IsActive': isActive,
+                        'HeaderId': headerId
+                    }
+                }),
+                //stateSave: true,
+                //"language":
+                //{
+                //    "processing": "<i class='fa fa-refresh fa-spin fa-2x fa-fw'></i>"
+                //},
+                processing: true,
+                serverSide: true,
+                "pagingType": "full_numbers",
+                columns: [
+                    { data: "ItemCode", name: "ItemCode", searchable: true, orderable: true },
+                    { data: "BrandName", name: "BrandName", searchable: true, orderable: true },
+                    { data: "ItemDescription", name: "ItemDescription", searchable: true, orderable: true },
+                    { data: "Quantity", name: "Quantity", searchable: true, orderable: true },
+                    { data: "UomDescription", name: "UomDescription", searchable: true, orderable: true },
+                    { data: "Actions", name: "Actions", searchable: false, orderable: false }
+                ],
+                createdRow: function (row, data, index) {
+                    if (data.IsActive == true) {
+                        $('td', row).each(function () {
+                            $(this).css('white-space', 'nowrap');
+                        });
+                    }
+                    else {
+                        $(row).addClass('Highlight');
+                    }
+                },
+                fnInitComplete: function () {
+                    $("#overlay").hide();
+                }
+                //"scrollY": 300,
+            });
+
+            $('#dataTable_filter input').unbind();
+            $('#dataTable_filter input').bind('keyup', function (e) {
+                if (this.value.length >= 1 || e.keyCode == 13) {
+                    debugger;
+                    oTable.search(this.value).draw();
+                }
+                // Ensure we clear the search if they backspace far enough
+                if (this.value == "") {
+                    oTable.search("").draw();
+                }
+                return;
+            });
+            $('#dataTable').wrap('<div class="dataTables_scroll" />');
+      }
+    //$(document).ready(function () {
+    //    var table = $('#dataTable').DataTable({
+
+    //        //stateSave: true,
+    //        "pagingType": "full_numbers",
+    //        //"scrollY": 300,
+    //    });
+
+    //    $('#dataTable tbody')
+    //        .on('mouseenter', 'td', function () {
+    //            var colIdx = table.cell(this).index().column;
+
+    //            $(table.cells().nodes()).removeClass('highlight');
+    //            $(table.column(colIdx).nodes()).addClass('highlight');
+
+    //        });
+
+    //    $('#dataTable').wrap('<div class="dataTables_scroll" />');
+    //});
+
+    //$("#dataTable").on("click", ".crud", function () {
+    //    btnClicked($(this));
+    //});
+
+    $(".crud").on('click', function () {
+        debugger;
+        btnClicked($(this));
+    });
+
+    $("#createBtn").click(function () {
+        btnClicked($(this));
+    });
+
+    debugger;
+
+    var btnClicked = function (btnClick) {
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + /*'&StatusCd=' + btnClick.data('status') +*/ '&expectedReceiptId=' + @ViewBag.ExpectedReceiptId + '&GoodsReceivedNumber=' + btnClick.data('grn') + '&StatusCode=' + btnClick.data('status');
+        AjaxCrudCall(url, "GET");
+    };
+
+    @*var btnClicked = function (btnClick) {
+        var url = "";
+        debugger;
+        if (btnClick.data('target') == "Delete" ) {
+            url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&expectedReceiptId=' + @ViewBag.ExpectedReceiptId + '&GoodsReceivedNumber=' + btnClick.data('grn') + '&StatusCode=' + btnClick.data('status');
+        }
+        else if (btnClick.data('target') == "Enable") {
+            url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&expectedReceiptId=' + @ViewBag.ExpectedReceiptId + '&GoodsReceivedNumber=' + btnClick.data('grn') + '&StatusCode=' + btnClick.data('status');
+        }
+        else {
+            url = btnClick.data('request-url') + '?id=' + btnClick.data('id') + '&GoodsReceivedNumber=' + btnClick.data('grn') + '&StatusCode=' + btnClick.data('status');
+        }
+        AjaxCrudCall(url, "GET");
+    };*@
+
+</script>

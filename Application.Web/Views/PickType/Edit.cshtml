@@ -1,0 +1,57 @@
+﻿@model CenGts.Web.Models.ViewModels.PickTypeViewModels
+@{
+    ViewBag.Title = "Pick Type Edit";
+}
+
+<div id="form-container" data-url="@Url.Action("Edit","PickType")">
+    @using (Html.BeginForm("Edit", "PickType", FormMethod.Post, new { id = "create-form" }))
+    {
+        @Html.HiddenFor(model => model.Id)
+        @Html.HiddenFor(model => model.CustomerId)
+        @Html.HiddenFor(model => model.IsActive)
+        @Html.HiddenFor(model => model.DateCreated)
+        @Html.HiddenFor(model => model.CreatedBy)
+
+        <div class="box-body">
+            <div class="form-horizontal">
+                <div class="col-md-12">
+                    @Html.AntiForgeryToken()
+                    <div class="form-group">
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Code, new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Code, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                            @Html.ValidationMessageFor(model => model.Code, "", new { @class = "text-danger" })
+                        </div>
+                        <div class="col-md-6">
+                            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-15 required" })
+                            @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box-footer">
+            <input type="submit" id="create-submit" value="Save" class="btn btn-primary pull-right" />
+        </div>
+    }
+</div>
+
+<script type="text/javascript">
+    
+    $('#create-submit').click(function () {
+        $('input:disabled').removeAttr('disabled');
+
+        var formcontainer = $('#form-container');
+        var url = formcontainer.attr('data-url');
+        var form = $('#create-form');
+        form.removeData('validator');
+        form.removeData('unobtrusiveValidation');
+        $.validator.unobtrusive.parse(form);
+        form.validationEngine('validate');
+
+        return false;
+    });
+
+    $('.modal-title').html("<b>Edit</b>");
+</script>

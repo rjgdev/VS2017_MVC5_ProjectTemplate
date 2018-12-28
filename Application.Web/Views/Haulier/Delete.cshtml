@@ -1,0 +1,83 @@
+﻿@model CenGts.Web.Models.ViewModels.HaulierViewModel
+
+@{
+    ViewBag.Title = "Haulier Delete";
+}
+<div class="alert alert-danger alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Deleting this records cannot be undone. Are you sure you want to proceed?
+</div>
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.HaulierCode)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.HaulierCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Name)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Name)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ContactPerson)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ContactPerson)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Telephone)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Telephone)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.MobileNo)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.MobileNo)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.EmailAddress)
+                </dt>
+                <dd>
+                    @Html.DisplayTextFor(model => model.EmailAddress)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Website)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Website)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd>
+                    @{
+                        var isActive = Model.IsActive ? "Yes" : "No";
+                    }
+                    @isActive
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="box-footer">
+        <input type="submit" value="Delete" class="btn btn-danger pull-right" />
+    </div>
+}
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>Delete</b>");
+</script>

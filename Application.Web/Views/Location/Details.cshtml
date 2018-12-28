@@ -1,0 +1,46 @@
+﻿@model CenGts.Web.Models.ViewModels.LocationViewModel
+@{
+    ViewBag.Title = "Location Details";
+}
+
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.WarehouseDescription)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.WarehouseDescription)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+@if (Model.IsActive)
+{
+    <div class="box-footer">
+        <button type="button" class="btn btn-primary pull-right crud" data-id="@Model.Id" data-request-url="@Url.Action("Edit")">Edit</button>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    $(".crud").click(function () {
+
+        debugger;
+        var btnClick = $(this);
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+    });
+
+    $('.modal-title').html("<b>Details</b>");
+
+</script>

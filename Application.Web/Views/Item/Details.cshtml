@@ -1,0 +1,74 @@
+﻿@model CenGts.Web.Models.ViewModels.ItemViewModel
+@{
+    ViewBag.Title = "Item Details";
+}
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.ProductDesc)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.ProductDesc)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.BrandName)
+                </dt>
+                <dd>
+                    @Html.DisplayFor(model => model.BrandName)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.ItemCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ItemCode)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.Description)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Description)
+                </dd>
+                <dt>
+                    @Html.DisplayNameFor(model => model.IsActive)
+                </dt>
+                <dd>
+                    @{
+                        var isActive = Model.IsActive ? "Yes" : "No";
+                    }
+                    @isActive
+                </dd>
+                @*<dt>
+            @Html.DisplayNameFor(model => model.Quantity)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Quantity)
+        </dd>*@
+            </dl>
+        </div>
+    </div>
+</div>
+@if (Model.IsActive)
+{
+    <div class="box-footer">
+        <button type="button" class="btn btn-primary pull-right crud" data-id="@Model.Id" data-request-url="@Url.Action("Edit")">Edit</button>
+    </div>
+
+}
+
+<script type="text/javascript">
+
+    $(".crud").click(function () {
+       
+        var btnClick = $(this);
+        var url = btnClick.data('request-url') + '?id=' + btnClick.data('id');
+        AjaxCrudCall(url, "GET");
+
+    });
+
+    $('.modal-title').html("<b>Details</b>");
+</script>

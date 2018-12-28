@@ -1,0 +1,143 @@
+﻿@model CenGts.Web.Models.ViewModels.DeliveryRequestViewModel
+
+@{
+    ViewBag.Title = "Delivery Request Enable";
+}
+<div class="alert alert-success alert-dismissible">
+    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+    <h4><i class="icon fa fa-ban"></i> Alert!</h4>
+    Are you sure you want to enable this record again?
+</div>
+<div class="box-body">
+    <div class="form-horizontal">
+        <div class="col-md-12">
+            <dl class="dl-horizontal">
+                <dt>
+                    @Html.DisplayNameFor(model => model.DeliveryRequestCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.DeliveryRequestCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RequestType)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RequestType)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RequestedDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RequestedDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RequiredDeliveryDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RequiredDeliveryDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.HaulierName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.HaulierName)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.ServiceCode)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.ServiceCode)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.CustomerRef)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.CustomerRef)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.RequiredDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.RequiredDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.EarliestDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.EarliestDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.LatestDate)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.LatestDate)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.SalesOrderRef)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SalesOrderRef)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.WarehouseDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.WarehouseDescription)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.Address)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.Address)
+                </dd>
+
+                <dt>
+                    @Html.DisplayNameFor(model => model.StatusName)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.StatusName)
+                </dd>
+            </dl>
+        </div>
+    </div>
+</div>
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="box-footer">
+        <input type="submit" value="Enable" class="btn btn-primary pull-right" />
+    </div>
+}
+
+
+<script type="text/javascript">
+            $('.modal-title').html("<b>Enable</b>");
+</script>
+

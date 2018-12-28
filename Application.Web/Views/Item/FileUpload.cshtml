@@ -1,0 +1,109 @@
+﻿@{
+    ViewBag.Title = "File Upload";
+}
+
+<div id="form-container" data-url="@Url.Action("FileUpload","Item")">
+    @using (Html.BeginForm("Upload", "Item", FormMethod.Post, new { id = "fileUpload-form", enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+    <div class="box-body">
+        <div class="form-horizontal">
+            <div class="form-group">
+                <div class="col-md-6">
+                    <input class="primary" type="file" name="attach-input" id="attach-input" accept=".xls,.xlsx" required />
+                    @Html.ValidationMessage("attach-input", "Please select a file", new { id= "uploadErrorMessage", @class = "text-danger", hidden = "hidden" })
+                </div>
+                <div class="col-md-6">
+                    <button class="btn btn-primary pull-right" type="button" name="attach-button" id="attach-button" data-id="">Upload</button>
+                </div>
+            </div>
+            <div id="uploadLabel" class="form-group" hidden>
+                <div class="col-md-12">
+                    <h3 id="uploadLabelText" class="control-label" style="color:#275fba; text-align: center;"><em>Uploading File please wait...</em></h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+<script type="text/javascript">
+    $('.modal-title').html("<b>File Upload</b>");
+
+    $('#attach-input').on('change', function () {
+        var input = $('#attach-input')[0].files;
+        if (input.length > 0) {
+            $('#uploadErrorMessage').attr('hidden', 'hidden');
+        }
+        else {
+            $('#uploadErrorMessage').removeAttr('hidden');
+        }
+    });
+
+    $('#attach-button').on('click', function () {
+        debugger;
+        //$('.modal-process').show();
+        //var dataId = $(this).data("id");
+        //$('#uploadLabel').removeAttr('hidden');
+
+        var input = $('#attach-input')[0].files;
+        if (input.length > 0) {
+            var data = new FormData();
+            var url = '@Url.Action("Upload")';
+
+            for (var i = 0; i < input.length; i++) {
+                data.append(input[i].name, input[i]);
+            }
+
+            $('#uploadLabel').removeAttr('hidden');
+            $('#modalClose').attr('disabled', 'disabled');
+            $('#attach-input').attr('disabled', 'disabled');
+            $('#attach-button').attr('disabled', 'disabled');
+
+            $.fn.UploadUpdates(url, data);
+        }
+        else {
+            $('#uploadErrorMessage').removeAttr('hidden');
+
+            var formcontainer = $('#form-container');
+            var url = formcontainer.attr('data-url');
+            var form = $('#fileUpload-form');
+            form.removeData('validator');
+            form.removeData('unobtrusiveValidation');
+            $.validator.unobtrusive.parse(form);
+            form.validationEngine('validate');
+
+
+            return false;
+        }
+    });
+
+    $.fn.UploadUpdates = function (url, data) {
+        $.ajax({
+            url: url,
+            data: data,
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            async: true,
+            processData: false,
+            contentType: false,
+            success: function (data) {
+                debugger;
+                if (data.status = 'failed') {
+                    $('#uploadLabelText').css('color', '#ef3b00');
+                }
+                else {
+                    $('#uploadLabelText').css('color', '#275fba');
+                }
+
+                $('#uploadLabelText em').html([]);
+                $('#uploadLabelText em').html(data.message);
+
+                setTimeout(function () {            
+                        window.location.href = '@Url.Action("Index")';
+                        }, 5000)
+            }
+        });
+    }
+</script>
