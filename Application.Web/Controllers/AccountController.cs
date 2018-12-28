@@ -1,7 +1,4 @@
-﻿
-//using CenGts.Data.Models;
-//using CenGts.Model;
-using Application.Web.Helper;
+﻿using Application.Web.Helper;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -33,9 +30,6 @@ namespace Application.Web.Controllers
             return View("Login");
         }
 
-        //private static readonly string baseUrl = "http://localhost:50800/";
-        //private static readonly string baseUrl = "http://180.232.139.195/wmslite/";
-        
         /// <summary>
         /// Login
         /// </summary>

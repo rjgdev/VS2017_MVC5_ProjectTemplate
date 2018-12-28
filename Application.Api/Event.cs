@@ -10,6 +10,6 @@ namespace Application.Api
             XmlConfigurator.Configure();
         }
 
-        public static ILog LoggingInstance { get; } = LogManager.GetLogger("CenGts API");
+        public static ILog LoggingInstance { get; } = LogManager.GetLogger("Application API");
     }
 }

@@ -79,12 +79,12 @@ namespace Application.Data.Migrations
                 new Customer
                 {
                     Id = 1,
-                    CompanyName = "Cen Global Track Solutions",
+                    CompanyName = "ABC Company",
                     LastName = "Dela Cruz",
                     FirstName = "Juan",
                     MiddleName = "Santos",
                     EmailAddress = "juandlc@gmail.com",
-                    Domain = "cengts"
+                    Domain = "abcco"
                 },
                 new Customer
                 {
@@ -101,15 +101,14 @@ namespace Application.Data.Migrations
 
             #region Users
 
-            if (roleManager.RoleExists("SuperAdmin") && userManager.FindByEmail("rmarvida@cenglobal.com") == null)
+            if (roleManager.RoleExists("SuperAdmin"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "rmarvida",
-                    FirstName = "Renz Gabriel",
-                    LastName = "Marvida",
-                    Email = "rmarvida@cenglobal.com",
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
+                    UserName = "superadmin",
+                    FirstName = "Super",
+                    LastName = "Admin",
+                    Email = "zhere27@gmail.com",
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -122,16 +121,15 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Warehouse Administrator") && userManager.FindByEmail("kcabalfin@cenglobal.com") == null)
+            if (roleManager.RoleExists("Warehouse Administrator"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "kcabalfin",
-                    FirstName = "Kenneth",
-                    LastName = "Cabalfin",
-                    Email = "kcabalfin@cenglobal.com",
+                    UserName = "warehouse",
+                    FirstName = "Warehouse",
+                    LastName = "Admin",
+                    Email = "",
                     CustomerId = 1,
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -145,16 +143,15 @@ namespace Application.Data.Migrations
             };
 
 
-            if (roleManager.RoleExists("Warehouse Staff") && userManager.FindByEmail("kmiones@cenglobal.com") == null)
+            if (roleManager.RoleExists("Warehouse Staff"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "kmiones",
-                    FirstName = "Kristine",
-                    LastName = "Miones",
-                    Email = "kmiones@cenglobal.com",
+                    UserName = "staff",
+                    FirstName = "Warehouse",
+                    LastName = "Staff",
+                    Email = "",
                     CustomerId = 1,
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -167,16 +164,15 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Warehouse Operatives") && userManager.FindByEmail("aanonuevo@cenglobal.com") == null)
+            if (roleManager.RoleExists("Warehouse Operatives"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "aanonuevo",
-                    FirstName = "Alvin",
-                    LastName = "Anonuevo",
-                    Email = "aanonuevo@cenglobal.com",
+                    UserName = "operator",
+                    FirstName = "Warehouse",
+                    LastName = "Operator",
+                    Email = "",
                     CustomerId = 1,
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -189,16 +185,15 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Warehouse Manager") && userManager.FindByEmail("mbatarao@cenglobal.com") == null)
+            if (roleManager.RoleExists("Warehouse Manager"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "mbatarao",
-                    FirstName = "Brenda",
-                    LastName = "Batarao",
-                    Email = "mbatarao@cenglobal.com",
+                    UserName = "manager",
+                    FirstName = "Warehouse",
+                    LastName = "Manager",
+                    Email = "",
                     CustomerId = 1,
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -211,16 +206,15 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Warehouse Supervisor") && userManager.FindByEmail("jalmero@cenglobal.com") == null)
+            if (roleManager.RoleExists("Warehouse Supervisor"))
             {
                 var user = new ApplicationUser()
                 {
-                    UserName = "jalmero",
-                    FirstName = "Jhen",
-                    LastName = "Almero",
-                    Email = "jalmero@cenglobal.com",
+                    UserName = "supervisor",
+                    FirstName = "Warehouse",
+                    LastName = "Supervisor",
+                    Email = "",
                     CustomerId = 1,
-                    //PasswordHash = PasswordHash.HashPassword("P@$$W0rd")
                 };
 
                 var chkUser = userManager.Create(user, "P@$$W0rd");
@@ -233,21 +227,19 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Administrator") && userManager.FindByEmail("jmaglalang@cenglobal.com") == null)
+            if (roleManager.RoleExists("Administrator"))
             {
                 var user = new ApplicationUser()
                 {
-                    Email = "jmaglalang@cenglobal.com",
-                    PasswordHash = "AFbMab2bWOoG59exr5AiAIpZ8Bf3PaAjmN5O/jkf3pQRO1LFfr5eVE5WtequPwnZVQ==",
-                    UserName = "jmaglalang@cenglobal.com",
-                    FirstName = "John Roger",
-                    LastName = "Maglalang",
-                    MiddleName = "Baldemor",
+
+                    UserName = "admin",
+                    FirstName = "Admin",
+                    LastName = "Admin",
+                    Email = "",
                     CustomerId = 1,
-                    SecurityStamp = "luhluhluh"
                 };
 
-                var chkUser = userManager.Create(user);
+                var chkUser = userManager.Create(user, "P@$$w0rd");
 
                 //Add default User to Role Admin   
                 if (chkUser.Succeeded)
@@ -536,15 +528,6 @@ namespace Application.Data.Migrations
             //    #endregion
 
             //    #region Users
-            //    context.Users.AddOrUpdate(x => x.Email,
-            //        new ApplicationUser
-            //        {
-            //            Email = "jmaglalang@cenglobal.com",
-            //            PasswordHash = "AFbMab2bWOoG59exr5AiAIpZ8Bf3PaAjmN5O/jkf3pQRO1LFfr5eVE5WtequPwnZVQ==",
-            //            UserName = "jmaglalang@cenglobal.com",
-            //            CustomerId = 1,
-            //            SecurityStamp = "luhluhluh"
-            //        },
             //        new ApplicationUser
             //        {
             //            Email = "ealcantara@cenglobal.com",
@@ -763,30 +746,7 @@ namespace Application.Data.Migrations
 
             //    #region CustomerClients
             //    context.CustomerClients.AddOrUpdate(x => x.Id,
-            //            new CustomerClient
-            //            {
-
-            //                Id = 1,
-            //                CustomerCode = "codeTest",
-            //                Name = "testName",
-            //                //CustomerClientAddresses = null,
-            //                ContactPerson = "John Roger Maglalang",
-            //                Telephone = "09154472233",
-            //                EmailAddress = "johnroger.maglalang@gmail.com",
-            //                Website = "ww"
-            //            },
-            //            new CustomerClient
-            //            {
-            //                Id = 2,
-            //                CustomerCode = "test",
-            //                Name = "John Roger Maglalang",
-            //                //CustomerClientAddresses = null,
-            //                ContactPerson = "John Roger Maglalang",
-            //                Telephone = "09154472233",
-            //                EmailAddress = "ebild00d@gmail.com",
-            //                Website = "http://www.cenglobal.com"
-            //            },
-            //            new CustomerClient
+             //            new CustomerClient
             //            {
             //                Id = 3,
             //                CustomerCode = "rdantes",
@@ -1007,27 +967,7 @@ namespace Application.Data.Migrations
             //    );
             //    #endregion TransactionType
 
-            //    #region Vendor
-            //    context.Vendors.AddOrUpdate(x => x.Id,
-            //        new Vendor
-            //        {
-            //            Id = 1,
-            //            VendorName = "Renz Gabriel Marvida",
-            //            ContactPerson = "Renz Gabriel Marvida",
-            //            Telephone = "09272468960",
-            //            MobileNo = "09272468960",
-            //            EmailAddress = "mrenzg@gmail.com",
-            //            Website = "google.com",
-            //            AddressCode = null,
-            //            AddressName = null,
-            //            Address1 = null,
-            //            Address2 = null,
-            //            PostCode = null,
-            //            CustomerId = null,
-            //            IsActive = false
-            //        },
-
-            //        new Vendor
+                        //        new Vendor
             //        {
             //            Id = 2,
             //            VendorName = "Veco Paper Corporation",

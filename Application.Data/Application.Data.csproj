@@ -84,14 +84,6 @@
   <ItemGroup>
     <Compile Include="Helper\IdentityConfig.cs" />
     <Compile Include="Helper\PredicateBuilder.cs" />
-    <Compile Include="Migrations\201809260214067_checkfirst.cs" />
-    <Compile Include="Migrations\201809260214067_checkfirst.Designer.cs">
-      <DependentUpon>201809260214067_checkfirst.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201810100222369_second.cs" />
-    <Compile Include="Migrations\201810100222369_second.Designer.cs">
-      <DependentUpon>201810100222369_second.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -154,14 +146,6 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201809260214067_checkfirst.resx">
-      <DependentUpon>201809260214067_checkfirst.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201810100222369_second.resx">
-      <DependentUpon>201810100222369_second.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Application.Model\Application.Model.csproj">

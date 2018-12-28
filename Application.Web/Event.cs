@@ -10,6 +10,6 @@ namespace Application.Web
             XmlConfigurator.Configure();
         }
 
-        public static ILog LoggingInstance { get; } = LogManager.GetLogger("CenGts Web");
+        public static ILog LoggingInstance { get; } = LogManager.GetLogger("Application Web");
     }
 }
