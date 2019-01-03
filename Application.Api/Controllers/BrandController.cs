@@ -117,7 +117,7 @@ namespace Application.Api.Controllers
                 if (retId == 0)
                 {
                     Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Add record not successful, Brand Code is duplicate.");
-                    return Content(HttpStatusCode.Forbidden, "Brand Code is Duplicate");
+                    return Content(HttpStatusCode.Forbidden, String.Format(Resource.Strings.m_IsDuplicate, Resource.Strings.s_BrandCode));
                 }
                 var response = this.Request.CreateResponse(HttpStatusCode.Created);
                 string test = JsonConvert.SerializeObject(new

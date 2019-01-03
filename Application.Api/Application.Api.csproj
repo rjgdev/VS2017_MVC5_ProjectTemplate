@@ -401,6 +401,10 @@
       <Project>{2F5E892C-C9C8-4140-AB2E-7C9A4B7A30C3}</Project>
       <Name>Application.Model</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Application.Resource\Application.Resource.csproj">
+      <Project>{dbd61b21-c8a3-4d70-ac85-86f5ac22556c}</Project>
+      <Name>Application.Resource</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
