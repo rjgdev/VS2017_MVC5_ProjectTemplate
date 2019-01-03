@@ -161,7 +161,7 @@ namespace Application.Api.Controllers
             }
 
             Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Update record not successful, Brand Code is duplicate.");
-            return Content(HttpStatusCode.Forbidden, "Brand Code is Duplicate");
+            return Content(HttpStatusCode.Forbidden, String.Format(Resource.Strings.m_IsDuplicate, Resource.Strings.s_BrandCode));
 
         }
 
