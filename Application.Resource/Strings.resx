@@ -133,6 +133,12 @@
   <data name="m_IsDuplicate" xml:space="preserve">
     <value>{0} is duplicate.</value>
   </data>
+  <data name="m_RecordSuccessful" xml:space="preserve">
+    <value>{0} record successful.</value>
+  </data>
+  <data name="m_RecordWasUpdatedSuccessfully" xml:space="preserve">
+    <value>{0} record was updated successfully.</value>
+  </data>
   <data name="q_DoYouWantToContinue" xml:space="preserve">
     <value>Do you want to continue?</value>
   </data>
@@ -144,5 +150,8 @@
   </data>
   <data name="s_Item" xml:space="preserve">
     <value>Item</value>
+  </data>
+  <data name="s_Update" xml:space="preserve">
+    <value>Update</value>
   </data>
 </root>

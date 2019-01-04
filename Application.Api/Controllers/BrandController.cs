@@ -156,8 +156,8 @@ namespace Application.Api.Controllers
             bool isNotDuplicate = _brandService.Update(obj);
             if (isNotDuplicate == true)
             {
-                Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Update record successful.");
-                return Content(HttpStatusCode.OK, "Brand record was updated successfully.");
+                Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||"+String.Format(Resource.String.m_RecordSuccessful,Resource.String.s_Update));
+                return Content(HttpStatusCode.OK, String.Format(Resource.String.m_RecordWasUpdatedSuccessfully, Resource.String.s_Brand));
             }
 
             Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Update record not successful, Brand Code is duplicate.");

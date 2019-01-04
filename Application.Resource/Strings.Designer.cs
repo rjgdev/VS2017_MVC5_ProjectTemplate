@@ -106,6 +106,24 @@ namespace Application.Resource {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to {0} record successful..
+        /// </summary>
+        public static string m_RecordSuccessful {
+            get {
+                return ResourceManager.GetString("m_RecordSuccessful", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} record was updated successfully..
+        /// </summary>
+        public static string m_RecordWasUpdatedSuccessfully {
+            get {
+                return ResourceManager.GetString("m_RecordWasUpdatedSuccessfully", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Do you want to continue?.
         /// </summary>
         public static string q_DoYouWantToContinue {
@@ -138,6 +156,15 @@ namespace Application.Resource {
         public static string s_Item {
             get {
                 return ResourceManager.GetString("s_Item", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Update.
+        /// </summary>
+        public static string s_Update {
+            get {
+                return ResourceManager.GetString("s_Update", resourceCulture);
             }
         }
     }

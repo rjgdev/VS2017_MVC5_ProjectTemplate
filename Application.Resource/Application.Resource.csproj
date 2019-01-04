@@ -5,6 +5,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include=".gitignore" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Update="Strings.Designer.cs">
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
