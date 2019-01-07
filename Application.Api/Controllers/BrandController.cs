@@ -117,7 +117,7 @@ namespace Application.Api.Controllers
                 if (retId == 0)
                 {
                     Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Add record not successful, Brand Code is duplicate.");
-                    return Content(HttpStatusCode.Forbidden, String.Format(Resource.Strings.m_IsDuplicate, Resource.Strings.s_BrandCode));
+                    return Content(HttpStatusCode.Forbidden, String.Format(Resources.Strings.m_IsDuplicate, Resources.Strings.s_BrandCode));
                 }
                 var response = this.Request.CreateResponse(HttpStatusCode.Created);
                 string test = JsonConvert.SerializeObject(new
@@ -156,12 +156,12 @@ namespace Application.Api.Controllers
             bool isNotDuplicate = _brandService.Update(obj);
             if (isNotDuplicate == true)
             {
-                Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||"+String.Format(Resource.String.m_RecordSuccessful,Resource.String.s_Update));
-                return Content(HttpStatusCode.OK, String.Format(Resource.String.m_RecordWasUpdatedSuccessfully, Resource.String.s_Brand));
+                Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||"+String.Format(Resources.Strings.m_RecordSuccessful,Resources.Strings.s_Update));
+                return Content(HttpStatusCode.OK, String.Format(Resources.Strings.m_RecordWasUpdatedSuccessfully, Resources.Strings.s_Brand));
             }
 
             Log.Info($"{typeof(BrandController).FullName}||{UserEnvironment}||Update record not successful, Brand Code is duplicate.");
-            return Content(HttpStatusCode.Forbidden, String.Format(Resource.Strings.m_IsDuplicate, Resource.Strings.s_BrandCode));
+            return Content(HttpStatusCode.Forbidden, String.Format(Resources.Strings.m_IsDuplicate, Resources.Strings.s_BrandCode));
 
         }
 
