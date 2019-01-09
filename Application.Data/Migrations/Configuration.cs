@@ -43,10 +43,10 @@ namespace Application.Data.Migrations
                 {
                     Name = "SuperAdmin"
                 },
-                 new IdentityRole
-                 {
-                     Name = "Administrator"
-                 },
+                new IdentityRole
+                {
+                    Name = "Administrator"
+                },
                 new IdentityRole
                 {
                     Name = "Warehouse Administrator"
@@ -108,10 +108,12 @@ namespace Application.Data.Migrations
                     UserName = "superadmin",
                     FirstName = "Super",
                     LastName = "Admin",
-                    Email = "zhere27@gmail.com",
+                    Email = "egalcantara@multisyscorp.com",
+                    EmailConfirmed = true,
+                    CustomerId = 1
                 };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+                var chkUser = userManager.Create(user, "P@$$w0rd");
 
                 //Add default User to Role Admin   
                 if (chkUser.Succeeded)
@@ -121,133 +123,133 @@ namespace Application.Data.Migrations
                 };
             };
 
-            if (roleManager.RoleExists("Warehouse Administrator"))
-            {
-                var user = new ApplicationUser()
-                {
-                    UserName = "warehouse",
-                    FirstName = "Warehouse",
-                    LastName = "Admin",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //if (roleManager.RoleExists("Warehouse Administrator"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
+            //        UserName = "warehouse",
+            //        FirstName = "Warehouse",
+            //        LastName = "Admin",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Warehouse Administrator");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Warehouse Administrator");
 
-                };
-            };
+            //    };
+            //};
 
 
-            if (roleManager.RoleExists("Warehouse Staff"))
-            {
-                var user = new ApplicationUser()
-                {
-                    UserName = "staff",
-                    FirstName = "Warehouse",
-                    LastName = "Staff",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //if (roleManager.RoleExists("Warehouse Staff"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
+            //        UserName = "staff",
+            //        FirstName = "Warehouse",
+            //        LastName = "Staff",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Warehouse Administrator");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Warehouse Administrator");
 
-                };
-            };
+            //    };
+            //};
 
-            if (roleManager.RoleExists("Warehouse Operatives"))
-            {
-                var user = new ApplicationUser()
-                {
-                    UserName = "operator",
-                    FirstName = "Warehouse",
-                    LastName = "Operator",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //if (roleManager.RoleExists("Warehouse Operatives"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
+            //        UserName = "operator",
+            //        FirstName = "Warehouse",
+            //        LastName = "Operator",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Warehouse Operatives");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Warehouse Operatives");
 
-                };
-            };
+            //    };
+            //};
 
-            if (roleManager.RoleExists("Warehouse Manager"))
-            {
-                var user = new ApplicationUser()
-                {
-                    UserName = "manager",
-                    FirstName = "Warehouse",
-                    LastName = "Manager",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //if (roleManager.RoleExists("Warehouse Manager"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
+            //        UserName = "manager",
+            //        FirstName = "Warehouse",
+            //        LastName = "Manager",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Warehouse Manager");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Warehouse Manager");
 
-                };
-            };
+            //    };
+            //};
 
-            if (roleManager.RoleExists("Warehouse Supervisor"))
-            {
-                var user = new ApplicationUser()
-                {
-                    UserName = "supervisor",
-                    FirstName = "Warehouse",
-                    LastName = "Supervisor",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //if (roleManager.RoleExists("Warehouse Supervisor"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
+            //        UserName = "supervisor",
+            //        FirstName = "Warehouse",
+            //        LastName = "Supervisor",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$W0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Warehouse Supervisor");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Warehouse Supervisor");
 
-                };
-            };
+            //    };
+            //};
 
-            if (roleManager.RoleExists("Administrator"))
-            {
-                var user = new ApplicationUser()
-                {
+            //if (roleManager.RoleExists("Administrator"))
+            //{
+            //    var user = new ApplicationUser()
+            //    {
 
-                    UserName = "admin",
-                    FirstName = "Admin",
-                    LastName = "Admin",
-                    Email = "",
-                    CustomerId = 1,
-                };
+            //        UserName = "admin",
+            //        FirstName = "Admin",
+            //        LastName = "Admin",
+            //        Email = "",
+            //        CustomerId = 1,
+            //    };
 
-                var chkUser = userManager.Create(user, "P@$$w0rd");
+            //    var chkUser = userManager.Create(user, "P@$$w0rd");
 
-                //Add default User to Role Admin   
-                if (chkUser.Succeeded)
-                {
-                    userManager.AddToRole(user.Id, "Administrator");
+            //    //Add default User to Role Admin   
+            //    if (chkUser.Succeeded)
+            //    {
+            //        userManager.AddToRole(user.Id, "Administrator");
 
-                };
-            };
+            //    };
+            //};
 
             #endregion Users
 
