@@ -47,7 +47,7 @@
             @*<li class="@Url.IsLinkActive("AnotherLink", "Home")">
                     <a href="@Url.Action("AnotherLink", "Home")"><i class="fa fa-file-excel-o"></i> <span>Reports</span></a>
                 </li>*@
-            @if (MyUser.IsInRole("Administrator") || MyUser.IsInRole("Warehouse Administrator"))
+            @if (MyUser.IsInRole("SuperAdmin") || MyUser.IsInRole("Administrator") || MyUser.IsInRole("Warehouse Administrator"))
             {
                 <li class="treeview">
                     <a href="#">
